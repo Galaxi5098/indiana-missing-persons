@@ -452,7 +452,7 @@ function renderModal(c) {
       '<div class="modal-section-title">Physical Description</div>' +
       '<div class="info-grid">' +
         '<div class="info-item"><div class="info-label">Height</div><div class="info-value">' + fmtHeight(_sd.heightFrom) + '</div></div>' +
-        '<div class="info-item"><div class="info-label">Weight</div><div class="info-value">' + (_sd.weightFrom ? _sd.weightFrom + '-' + _sd.weightTo + ' lbs' : 'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Weight</div><div class="info-value">' + (_sd.weightFrom ? (_sd.weightTo && _sd.weightTo !== _sd.weightFrom ? _sd.weightFrom + '-' + _sd.weightTo + ' lbs' : _sd.weightFrom + ' lbs') : 'Unknown') + '</div></div>' +
         '<div class="info-item"><div class="info-label">Hair Color</div><div class="info-value">' + ((_ph.hairColor&&_ph.hairColor.name)||'Unknown') + '</div></div>' +
         '<div class="info-item"><div class="info-label">Eye Color</div><div class="info-value">' + ((_ph.leftEyeColor&&_ph.leftEyeColor.name)||'Unknown') + '</div></div>' +
       '</div>' +
