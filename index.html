@@ -224,10 +224,8 @@ let allResults = [], filteredResults = [], currentPage = 1;
 const PAGE_SIZE = 24;
 
 async function fetchSearch(opts) {
+  // Only filter by state via API - name/gender/age filtered client-side to avoid 500 errors
   const predicates = [{ field: 'stateOfLastContact', operator: 'IsIn', values: ['Indiana'] }];
-  if (opts.firstName) predicates.push({ field: 'firstName', operator: 'StartsWith', values: [opts.firstName] });
-  if (opts.lastName) predicates.push({ field: 'lastName', operator: 'StartsWith', values: [opts.lastName] });
-  if (opts.sex) predicates.push({ field: 'gender', operator: 'IsIn', values: [opts.sex] });
 
   const resp = await fetch(PROXY + '/api/CaseSets/NamUs/MissingPersons/Search', {
     method: 'POST',
@@ -272,7 +270,10 @@ async function doSearch() {
   try {
     const data = await fetchSearch(opts);
     allResults = data.results || [];
-    // Age filter client-side since API doesn't support it well
+    // Filter name, gender, age client-side
+    if (opts.firstName) allResults = allResults.filter(c => (c.firstName||'').toLowerCase().startsWith(opts.firstName.toLowerCase()));
+    if (opts.lastName) allResults = allResults.filter(c => (c.lastName||'').toLowerCase().startsWith(opts.lastName.toLowerCase()));
+    if (opts.sex) allResults = allResults.filter(c => (c.gender||'').toLowerCase() === opts.sex.toLowerCase());
     if (opts.age) {
       const a = parseInt(opts.age);
       allResults = allResults.filter(c => {
