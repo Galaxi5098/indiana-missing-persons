@@ -3,575 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indiana Missing Persons â NamUs Database</title>
+<title>Indiana Missing Persons - NamUs Database</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0a1628;
-    --navy-mid: #132240;
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --cream: #f5f0e8;
-    --cream-dark: #ede5d5;
-    --red: #b8292f;
-    --text: #1a1a2e;
-    --text-muted: #5a6175;
-    --border: #d4c9b5;
-    --white: #ffffff;
-    --card-bg: #ffffff;
-    --shadow: 0 4px 24px rgba(10,22,40,0.10);
+    --navy: #0a1628; --navy-mid: #132240; --gold: #c9a84c; --gold-light: #e8c97a;
+    --cream: #f5f0e8; --cream-dark: #ede5d5; --red: #b8292f; --text: #1a1a2e;
+    --text-muted: #5a6175; --border: #d4c9b5; --shadow: 0 4px 24px rgba(10,22,40,0.10);
     --shadow-hover: 0 8px 40px rgba(10,22,40,0.18);
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    min-height: 100vh;
-  }
+  header { background: var(--navy); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.4); }
+  .header-inner { max-width: 1300px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; gap: 20px; }
+  .header-seal { width: 52px; height: 52px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 24px; }
+  .header-text h1 { font-family: 'Libre Baskerville', serif; font-size: 1.35rem; font-weight: 700; }
+  .header-text p { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-top: 2px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .header-badge { margin-left: auto; background: var(--gold); color: var(--navy); font-size: 0.7rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
 
-  /* ââ HEADER ââ */
-  header {
-    background: var(--navy);
-    color: var(--white);
-    padding: 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
-  }
-  .header-inner {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 18px 32px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  .header-seal {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    font-size: 24px;
-  }
-  .header-text h1 {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 1.35rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    line-height: 1.2;
-  }
-  .header-text p {
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.6);
-    margin-top: 2px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .header-badge {
-    margin-left: auto;
-    background: var(--gold);
-    color: var(--navy);
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 20px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
+  .hero-strip { background: var(--red); color: white; text-align: center; padding: 10px 20px; font-size: 0.82rem; font-weight: 500; }
+  .hero-strip a { color: #ffd580; text-decoration: underline; }
 
-  /* ââ HERO STRIP ââ */
-  .hero-strip {
-    background: var(--red);
-    color: white;
-    text-align: center;
-    padding: 10px 20px;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-  }
-  .hero-strip a { color: var(--gold-light); text-decoration: underline; }
+  .layout { max-width: 1300px; margin: 0 auto; padding: 32px 32px 60px; }
 
-  /* ââ MAIN LAYOUT ââ */
-  .layout {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 32px 32px 60px;
-  }
-
-  /* ââ SEARCH PANEL ââ */
-  .search-panel {
-    background: var(--navy);
-    border-radius: 12px;
-    padding: 28px 32px;
-    margin-bottom: 32px;
-    box-shadow: var(--shadow);
-  }
-  .search-title {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 1rem;
-    color: var(--gold);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .search-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr auto;
-    gap: 12px;
-    align-items: end;
-  }
-  @media(max-width: 900px) {
-    .search-grid { grid-template-columns: 1fr 1fr; }
-    .search-grid .search-btn-wrap { grid-column: 1/-1; }
-  }
-  @media(max-width: 560px) {
-    .search-grid { grid-template-columns: 1fr; }
-    .layout { padding: 16px 16px 40px; }
-    .header-inner { padding: 14px 16px; }
-    .search-panel { padding: 20px 16px; }
-  }
+  .search-panel { background: var(--navy); border-radius: 12px; padding: 28px 32px; margin-bottom: 32px; box-shadow: var(--shadow); }
+  .search-title { font-family: 'Libre Baskerville', serif; font-size: 1rem; color: var(--gold); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+  .search-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 12px; align-items: end; }
+  @media(max-width:900px){.search-grid{grid-template-columns:1fr 1fr;}.search-grid .search-btn-wrap{grid-column:1/-1;}}
+  @media(max-width:560px){.search-grid{grid-template-columns:1fr;}.layout{padding:16px 16px 40px;}.header-inner{padding:14px 16px;}.search-panel{padding:20px 16px;}}
   .field-group { display: flex; flex-direction: column; gap: 6px; }
-  .field-group label {
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.55);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-  .field-group input, .field-group select {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 7px;
-    color: white;
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    font-family: 'DM Sans', sans-serif;
-    transition: border 0.2s, background 0.2s;
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-  }
+  .field-group label { font-size: 0.72rem; color: rgba(255,255,255,0.55); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+  .field-group input, .field-group select { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 7px; color: white; padding: 10px 14px; font-size: 0.9rem; font-family: 'DM Sans', sans-serif; transition: border 0.2s; appearance: none; width: 100%; }
   .field-group select option { background: var(--navy-mid); color: white; }
   .field-group input::placeholder { color: rgba(255,255,255,0.35); }
-  .field-group input:focus, .field-group select:focus {
-    outline: none;
-    border-color: var(--gold);
-    background: rgba(255,255,255,0.12);
-  }
-  .btn-search {
-    background: var(--gold);
-    color: var(--navy);
-    border: none;
-    border-radius: 7px;
-    padding: 11px 28px;
-    font-size: 0.88rem;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s, transform 0.1s;
-    font-family: 'DM Sans', sans-serif;
-    letter-spacing: 0.02em;
-  }
-  .btn-search:hover { background: var(--gold-light); transform: translateY(-1px); }
-  .btn-search:active { transform: translateY(0); }
-  .btn-clear {
-    background: transparent;
-    color: rgba(255,255,255,0.5);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 7px;
-    padding: 11px 16px;
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'DM Sans', sans-serif;
-    margin-top: 8px;
-    width: 100%;
-  }
+  .field-group input:focus, .field-group select:focus { outline: none; border-color: var(--gold); background: rgba(255,255,255,0.12); }
+  .btn-search { background: var(--gold); color: var(--navy); border: none; border-radius: 7px; padding: 11px 28px; font-size: 0.88rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.2s; font-family: 'DM Sans', sans-serif; }
+  .btn-search:hover { background: var(--gold-light); }
+  .btn-clear { background: transparent; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 7px; padding: 11px 16px; font-size: 0.82rem; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 8px; width: 100%; transition: all 0.2s; }
   .btn-clear:hover { color: white; border-color: rgba(255,255,255,0.5); }
   .search-btn-wrap { display: flex; flex-direction: column; }
 
-  /* ââ RESULTS STATS ââ */
-  .results-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .results-count {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-  }
+  .results-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+  .results-count { font-size: 0.85rem; color: var(--text-muted); }
   .results-count strong { color: var(--text); }
   .sort-row { display: flex; align-items: center; gap: 10px; }
   .sort-row label { font-size: 0.8rem; color: var(--text-muted); }
-  .sort-row select {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 5px 10px;
-    font-size: 0.82rem;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text);
-    background: white;
-    cursor: pointer;
-  }
+  .sort-row select { border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; font-size: 0.82rem; font-family: 'DM Sans', sans-serif; color: var(--text); background: white; cursor: pointer; }
 
-  /* ââ CARDS GRID ââ */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-  }
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .person-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; border: 1px solid var(--border); animation: fadeUp 0.4s ease both; }
+  .person-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-  .person-card {
-    background: var(--card-bg);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid var(--border);
-    animation: fadeUp 0.4s ease both;
-  }
-  .person-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .card-photo-wrap { width: 100%; aspect-ratio: 3/4; overflow: hidden; background: var(--cream-dark); position: relative; }
+  .card-photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-no-photo { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #9a9080; gap: 8px; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; }
 
-  .card-photo {
-    width: 100%;
-    aspect-ratio: 3/4;
-    object-fit: cover;
-    display: block;
-    background: var(--cream-dark);
-  }
-  .card-no-photo {
-    width: 100%;
-    aspect-ratio: 3/4;
-    background: linear-gradient(135deg, #e8e2d8 0%, #d4cdbf 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #9a9080;
-    gap: 8px;
-    font-size: 0.78rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .card-no-photo svg { opacity: 0.4; }
-
-  .card-body {
-    padding: 14px 16px 16px;
-    border-top: 3px solid var(--gold);
-  }
-  .card-name {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 0.97rem;
-    font-weight: 700;
-    line-height: 1.3;
-    color: var(--navy);
-    margin-bottom: 4px;
-  }
-  .card-case {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .card-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .card-meta-row {
-    display: flex;
-    gap: 6px;
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    align-items: baseline;
-  }
+  .card-body { padding: 14px 16px 16px; border-top: 3px solid var(--gold); }
+  .card-name { font-family: 'Libre Baskerville', serif; font-size: 0.97rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .card-case { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 10px; }
+  .card-meta { display: flex; flex-direction: column; gap: 4px; }
+  .card-meta-row { display: flex; gap: 6px; font-size: 0.78rem; color: var(--text-muted); }
   .card-meta-row strong { color: var(--text); font-weight: 600; min-width: 38px; }
-  .card-tag {
-    display: inline-block;
-    margin-top: 10px;
-    background: #fff3cd;
-    color: #7a5c00;
-    font-size: 0.68rem;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-  }
+  .card-tag { display: inline-block; margin-top: 10px; background: #fff3cd; color: #7a5c00; font-size: 0.68rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; }
 
-  /* ââ LOADING / EMPTY ââ */
-  .state-box {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--text-muted);
-  }
+  .state-box { text-align: center; padding: 80px 20px; color: var(--text-muted); }
   .state-box .icon { font-size: 3rem; margin-bottom: 14px; opacity: 0.5; }
-  .state-box h3 {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 1.2rem;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
+  .state-box h3 { font-family: 'Libre Baskerville', serif; font-size: 1.2rem; color: var(--text); margin-bottom: 8px; }
   .state-box p { font-size: 0.88rem; line-height: 1.6; max-width: 400px; margin: 0 auto; }
-  .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid var(--border);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 16px;
-  }
+  .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ââ PAGINATION ââ */
-  .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    margin-top: 36px;
-    flex-wrap: wrap;
-  }
-  .page-btn {
-    min-width: 36px; height: 36px;
-    border: 1px solid var(--border);
-    background: white;
-    color: var(--text);
-    border-radius: 7px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-    font-family: 'DM Sans', sans-serif;
-    padding: 0 10px;
-  }
+  .pagination { display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: 36px; flex-wrap: wrap; }
+  .page-btn { min-width: 36px; height: 36px; border: 1px solid var(--border); background: white; color: var(--text); border-radius: 7px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; font-family: 'DM Sans', sans-serif; padding: 0 10px; }
   .page-btn:hover { border-color: var(--gold); color: var(--navy); }
   .page-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); font-weight: 700; }
   .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-  /* ââ MODAL ââ */
-  .modal-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(10,22,40,0.75);
-    z-index: 500;
-    backdrop-filter: blur(3px);
-    padding: 20px;
-    overflow-y: auto;
-    align-items: flex-start;
-    justify-content: center;
-  }
-  .modal-overlay.open {
-    display: flex;
-    animation: fadeIn 0.2s ease;
-  }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,22,40,0.75); z-index: 500; backdrop-filter: blur(3px); padding: 20px; overflow-y: auto; align-items: flex-start; justify-content: center; }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  .modal {
-    background: white;
-    border-radius: 14px;
-    max-width: 860px;
-    width: 100%;
-    margin: auto;
-    overflow: hidden;
-    box-shadow: 0 20px 80px rgba(0,0,0,0.4);
-    animation: slideUp 0.25s ease;
-  }
+  .modal { background: white; border-radius: 14px; max-width: 860px; width: 100%; margin: auto; overflow: hidden; box-shadow: 0 20px 80px rgba(0,0,0,0.4); animation: slideUp 0.25s ease; }
   @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
-
-  .modal-header {
-    background: var(--navy);
-    color: white;
-    padding: 20px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .modal-header-text h2 {
-    font-family: 'Libre Baskerville', serif;
-    font-size: 1.3rem;
-  }
+  .modal-header { background: var(--navy); color: white; padding: 20px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .modal-header-text h2 { font-family: 'Libre Baskerville', serif; font-size: 1.3rem; }
   .modal-header-text p { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
-  .modal-close {
-    background: rgba(255,255,255,0.1);
-    border: none;
-    color: white;
-    width: 34px; height: 34px;
-    border-radius: 50%;
-    font-size: 1.1rem;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
+  .modal-close { background: rgba(255,255,255,0.1); border: none; color: white; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
   .modal-close:hover { background: rgba(255,255,255,0.2); }
-
-  .modal-body {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 0;
-  }
-  @media(max-width: 640px) { .modal-body { grid-template-columns: 1fr; } }
-
-  .modal-photo-col {
-    background: var(--cream-dark);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 24px;
-    border-right: 1px solid var(--border);
-  }
-  .modal-photo {
-    width: 100%;
-    max-width: 200px;
-    border-radius: 8px;
-    object-fit: cover;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  }
-  .modal-no-photo {
-    width: 100%;
-    max-width: 200px;
-    aspect-ratio: 3/4;
-    border-radius: 8px;
-    background: #e5dfd5;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    color: #9a9080;
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    gap: 10px;
-  }
-
+  .modal-body { display: grid; grid-template-columns: 240px 1fr; }
+  @media(max-width:640px){.modal-body{grid-template-columns:1fr;}}
+  .modal-photo-col { background: var(--cream-dark); display: flex; align-items: flex-start; justify-content: center; padding: 24px; border-right: 1px solid var(--border); }
+  .modal-photo { width: 100%; max-width: 200px; border-radius: 8px; object-fit: cover; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .modal-no-photo { width: 100%; max-width: 200px; aspect-ratio: 3/4; border-radius: 8px; background: #e5dfd5; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #9a9080; font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase; gap: 10px; }
   .modal-info-col { padding: 24px 28px; overflow-y: auto; }
-
   .modal-section { margin-bottom: 22px; }
-  .modal-section-title {
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 700;
-    margin-bottom: 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--cream-dark);
-  }
-  .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 16px;
-  }
-  @media(max-width: 480px) { .info-grid { grid-template-columns: 1fr; } }
+  .modal-section-title { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--cream-dark); }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
   .info-item { display: flex; flex-direction: column; gap: 2px; }
-  .info-label {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    font-weight: 600;
-  }
-  .info-value {
-    font-size: 0.88rem;
-    color: var(--text);
-    font-weight: 500;
-  }
+  .info-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .info-value { font-size: 0.88rem; color: var(--text); font-weight: 500; }
   .info-full { grid-column: 1/-1; }
-  .circumstances-text {
-    font-size: 0.87rem;
-    line-height: 1.65;
-    color: var(--text);
-    background: var(--cream);
-    border-radius: 6px;
-    padding: 12px 14px;
-    border-left: 3px solid var(--gold);
-  }
-  .modal-actions {
-    padding: 16px 28px;
-    background: var(--cream);
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .btn-namus {
-    background: var(--navy);
-    color: var(--gold);
-    border: none;
-    border-radius: 7px;
-    padding: 10px 20px;
-    font-size: 0.83rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: background 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
+  .circumstances-text { font-size: 0.87rem; line-height: 1.65; color: var(--text); background: var(--cream); border-radius: 6px; padding: 12px 14px; border-left: 3px solid var(--gold); }
+  .modal-actions { padding: 16px 28px; background: var(--cream); border-top: 1px solid var(--border); display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-namus { background: var(--navy); color: var(--gold); border: none; border-radius: 7px; padding: 10px 20px; font-size: 0.83rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s; font-family: 'DM Sans', sans-serif; }
   .btn-namus:hover { background: var(--navy-mid); }
-  .btn-tip {
-    background: var(--red);
-    color: white;
-    border: none;
-    border-radius: 7px;
-    padding: 10px 20px;
-    font-size: 0.83rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: background 0.2s;
-    font-family: 'DM Sans', sans-serif;
-  }
+  .btn-tip { background: var(--red); color: white; border: none; border-radius: 7px; padding: 10px 20px; font-size: 0.83rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s; font-family: 'DM Sans', sans-serif; }
   .btn-tip:hover { background: #9e2025; }
 
-  /* ââ ERROR NOTICE ââ */
-  .cors-notice {
-    background: #fff3cd;
-    border: 1px solid #ffc107;
-    border-radius: 8px;
-    padding: 16px 20px;
-    margin-bottom: 20px;
-    font-size: 0.84rem;
-    color: #664d00;
-    display: none;
-  }
-  .cors-notice strong { display: block; margin-bottom: 4px; }
-
-  /* ââ FOOTER ââ */
-  footer {
-    background: var(--navy);
-    color: rgba(255,255,255,0.45);
-    text-align: center;
-    padding: 24px;
-    font-size: 0.75rem;
-    line-height: 1.7;
-    margin-top: 40px;
-  }
+  footer { background: var(--navy); color: rgba(255,255,255,0.45); text-align: center; padding: 24px; font-size: 0.75rem; line-height: 1.7; margin-top: 40px; }
   footer a { color: var(--gold); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 </style>
@@ -580,28 +120,23 @@
 
 <header>
   <div class="header-inner">
-    <div class="header-seal" title="Indiana">ðï¸</div>
+    <div class="header-seal">&#127963;</div>
     <div class="header-text">
       <h1>Indiana Missing Persons</h1>
-      <p>Powered by NamUs Â· National Missing &amp; Unidentified Persons System</p>
+      <p>Powered by NamUs - National Missing &amp; Unidentified Persons System</p>
     </div>
     <span class="header-badge">Public Database</span>
   </div>
 </header>
 
 <div class="hero-strip">
-  <strong>If you have information about a missing person, call the ISP tip line: </strong>
-  <a href="tel:18002220105">1-800-222-0105</a> &nbsp;|&nbsp; 
-  Emergency: <a href="tel:911">911</a>
+  If you have information about a missing person, call the ISP tip line:
+  <a href="tel:18002220105">1-800-222-0105</a> &nbsp;|&nbsp; Emergency: <a href="tel:911">911</a>
 </div>
 
 <div class="layout">
-
   <div class="search-panel">
-    <div class="search-title">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      Search Indiana Missing Persons
-    </div>
+    <div class="search-title">Search Indiana Missing Persons</div>
     <div class="search-grid">
       <div class="field-group">
         <label>First Name</label>
@@ -630,11 +165,6 @@
     </div>
   </div>
 
-  <div class="cors-notice" id="corsNotice">
-    <strong>â ï¸ Note: Running in Demo Mode</strong>
-    This page is displaying sample data because direct browser access to the NamUs API is restricted by CORS policy. To deploy this fully, the page needs to be served from a backend proxy or server. The UI and all features are functional â just connect to a server-side NamUs proxy.
-  </div>
-
   <div class="results-bar" id="resultsBar" style="display:none">
     <div class="results-count" id="resultsCount"></div>
     <div class="sort-row">
@@ -642,8 +172,8 @@
       <select id="sortBy" onchange="applySort()">
         <option value="date-desc">Missing Date (Newest)</option>
         <option value="date-asc">Missing Date (Oldest)</option>
-        <option value="name-asc">Name (AâZ)</option>
-        <option value="name-desc">Name (ZâA)</option>
+        <option value="name-asc">Name (A-Z)</option>
+        <option value="name-desc">Name (Z-A)</option>
         <option value="age-asc">Age (Youngest)</option>
         <option value="age-desc">Age (Oldest)</option>
       </select>
@@ -652,16 +182,14 @@
 
   <div id="mainContent">
     <div class="state-box">
-      <div class="icon">ð</div>
+      <div class="icon">&#128269;</div>
       <h3>Search Indiana Missing Persons</h3>
       <p>Use the filters above to search the NamUs database for missing persons cases in Indiana. Click any case card to view full details.</p>
     </div>
   </div>
-
   <div class="pagination" id="pagination"></div>
 </div>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal" id="modalBox">
     <div class="modal-header">
@@ -669,20 +197,12 @@
         <h2 id="modalName">Loading...</h2>
         <p id="modalCaseNum"></p>
       </div>
-      <button class="modal-close" onclick="closeModalDirect()">â</button>
+      <button class="modal-close" onclick="closeModalDirect()">&#10005;</button>
     </div>
     <div class="modal-body">
-      <div class="modal-photo-col" id="modalPhotoCol">
-        <div class="modal-no-photo">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          No Photo
-        </div>
-      </div>
+      <div class="modal-photo-col" id="modalPhotoCol"></div>
       <div class="modal-info-col" id="modalInfoCol">
-        <div class="state-box" style="padding:40px 0">
-          <div class="spinner"></div>
-          <p>Loading case details...</p>
-        </div>
+        <div class="state-box" style="padding:40px 0"><div class="spinner"></div><p>Loading case details...</p></div>
       </div>
     </div>
     <div class="modal-actions" id="modalActions"></div>
@@ -690,45 +210,33 @@
 </div>
 
 <footer>
-  Data sourced from the <a href="https://www.namus.gov" target="_blank">National Missing &amp; Unidentified Persons System (NamUs)</a>, administered by the U.S. Department of Justice's National Institute of Justice.<br>
-  For law enforcement use, contact <a href="https://www.in.gov/isp/" target="_blank">Indiana State Police</a> Â· All case data is publicly available per NamUs guidelines.<br>
-  <span style="opacity:0.5; font-size:0.7rem">This interface is not affiliated with or endorsed by NamUs or the Indiana State Police.</span>
+  Data sourced from the <a href="https://www.namus.gov" target="_blank">National Missing &amp; Unidentified Persons System (NamUs)</a>, administered by the U.S. Department of Justice.<br>
+  For law enforcement use, contact <a href="https://www.in.gov/isp/" target="_blank">Indiana State Police</a> - All case data is publicly available per NamUs guidelines.<br>
+  <span style="opacity:0.5;font-size:0.7rem">This interface is not affiliated with or endorsed by NamUs or the Indiana State Police.</span>
 </footer>
 
 <script>
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-// STATE
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-let allResults = [];
-let filteredResults = [];
-let currentPage = 1;
+const PROXY = 'https://namus-proxy.galaxi5098.workers.dev';
+const NAMUS_BASE = 'https://www.namus.gov';
+const PROJECTIONS = ['idFormatted','dateOfLastContact','lastName','firstName','computedMissingMinAge','computedMissingMaxAge','cityOfLastContact','countyDisplayNameOfLastContact','stateDisplayNameOfLastContact','gender','raceEthnicity','modifiedDateTime','namus2Number'];
+
+let allResults = [], filteredResults = [], currentPage = 1;
 const PAGE_SIZE = 24;
-let usingDemo = false;
 
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-// NAMUS API HELPERS
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-const BASE = 'https://namus-proxy.galaxi5098.workers.dev';
-
-async function fetchNamus(opts = {}) {
-  const predicates = [
-    { field: 'stateOfLastContact', operator: 'IsIn', values: ['Indiana'] }
-  ];
+async function fetchSearch(opts) {
+  const predicates = [{ field: 'stateOfLastContact', operator: 'IsIn', values: ['Indiana'] }];
   if (opts.firstName) predicates.push({ field: 'firstName', operator: 'StartsWith', values: [opts.firstName] });
   if (opts.lastName) predicates.push({ field: 'lastName', operator: 'StartsWith', values: [opts.lastName] });
-  if (opts.sex) predicates.push({ field: 'sex', operator: 'IsIn', values: [opts.sex] });
-  if (opts.age) {
-    predicates.push({ field: 'computedMissingMinAge', operator: 'LessThanOrEqual', values: [String(parseInt(opts.age) + 5)] });
-    predicates.push({ field: 'computedMissingMaxAge', operator: 'GreaterThanOrEqual', values: [String(Math.max(0, parseInt(opts.age) - 5))] });
-  }
-  const resp = await fetch(BASE + '/api/CaseSets/NamUs/MissingPersons/Search', {
+  if (opts.sex) predicates.push({ field: 'gender', operator: 'IsIn', values: [opts.sex] });
+
+  const resp = await fetch(PROXY + '/api/CaseSets/NamUs/MissingPersons/Search', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({
       take: 1000, skip: 0,
       predicates: predicates,
-      projections: ['idFormatted','dateOfLastContact','lastName','firstName','computedMissingMinAge','computedMissingMaxAge','cityOfLastContact','countyDisplayNameOfLastContact','stateDisplayNameOfLastContact','gender','raceEthnicity','modifiedDateTime','namus2Number'],
-      orderSpecifications: [{field:'dateOfLastContact', direction:'Descending'}],
+      projections: PROJECTIONS,
+      orderSpecifications: [{ field: 'dateOfLastContact', direction: 'Descending' }],
       documentFragments: ['birthDate']
     })
   });
@@ -736,36 +244,21 @@ async function fetchNamus(opts = {}) {
   return resp.json();
 }
 
-async function fetchCase(caseId) {
-  const resp = await fetch(BASE + '/api/CaseSets/NamUs/MissingPersons/Cases/' + caseId, {
-    method: 'GET',
+async function fetchCase(id) {
+  const resp = await fetch(PROXY + '/api/CaseSets/NamUs/MissingPersons/Cases/' + id, {
     headers: { 'Accept': 'application/json' }
   });
   if (!resp.ok) throw new Error('HTTP ' + resp.status);
   return resp.json();
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-// DEMO / SAMPLE DATA (fallback if CORS blocked)
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-const DEMO_CASES = [
-  { id: 'MP93761', firstName: 'Ashley', lastName: 'Nolen', sex: 'Female', computedMissingMinAge: 28, computedMissingMaxAge: 28, dateMissing: '2019-03-15', cityOfLastContact: 'Indianapolis', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Ashley was last seen leaving her apartment in Indianapolis. She had been in contact with family the day before her disappearance. Her vehicle was found abandoned near I-70.' },
-  { id: 'MP87432', firstName: 'James', lastName: 'Weatherton', sex: 'Male', computedMissingMinAge: 45, computedMissingMaxAge: 45, dateMissing: '2017-07-22', cityOfLastContact: 'Fort Wayne', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'James was last seen at his residence in Fort Wayne. He had told neighbors he was going fishing but never returned.' },
-  { id: 'MP102145', firstName: 'Maria', lastName: 'Castillo', sex: 'Female', computedMissingMinAge: 17, computedMissingMaxAge: 17, dateMissing: '2021-09-04', cityOfLastContact: 'Evansville', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Maria was last seen walking home from school in Evansville. She did not arrive home and was reported missing that evening.' },
-  { id: 'MP78923', firstName: 'Robert', lastName: 'Dunning', sex: 'Male', computedMissingMinAge: 62, computedMissingMaxAge: 62, dateMissing: '2015-12-01', cityOfLastContact: 'South Bend', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Robert walked away from a care facility in South Bend during a snowstorm. He was reported to have mild cognitive impairment.' },
-  { id: 'MP115678', firstName: 'Tanya', lastName: 'Morgan', sex: 'Female', computedMissingMinAge: 34, computedMissingMaxAge: 34, dateMissing: '2022-05-18', cityOfLastContact: 'Bloomington', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Tanya was last seen at a local restaurant in Bloomington. Her phone was found at a nearby park the following morning.' },
-  { id: 'MP69811', firstName: 'Kevin', lastName: 'Barlow', sex: 'Male', computedMissingMinAge: 21, computedMissingMaxAge: 21, dateMissing: '2013-08-30', cityOfLastContact: 'Muncie', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Kevin went to a party in Muncie and never returned home. Witnesses last saw him walking alone on a rural road early in the morning.' },
-  { id: 'MP134902', firstName: 'Linda', lastName: 'Prescott', sex: 'Female', computedMissingMinAge: 52, computedMissingMaxAge: 52, dateMissing: '2023-01-09', cityOfLastContact: 'Lafayette', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Linda was last seen at a gas station in Lafayette. Her car was found running at a rest stop on I-65.' },
-  { id: 'MP55403', firstName: 'Daniel', lastName: 'Whitt', sex: 'Male', computedMissingMinAge: 38, computedMissingMaxAge: 38, dateMissing: '2010-04-14', cityOfLastContact: 'Terre Haute', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Daniel was last known to be in Terre Haute. He had been experiencing personal difficulties and had not contacted his family for several weeks prior.' },
-  { id: 'MP142388', firstName: 'Sophia', lastName: 'Hensley', sex: 'Female', computedMissingMinAge: 14, computedMissingMaxAge: 14, dateMissing: '2023-10-11', cityOfLastContact: 'Gary', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Sophia was last seen leaving her school in Gary. Surveillance footage shows her getting into an unknown vehicle.' },
-  { id: 'MP98017', firstName: 'Marcus', lastName: 'Tilley', sex: 'Male', computedMissingMinAge: 29, computedMissingMaxAge: 29, dateMissing: '2020-06-27', cityOfLastContact: 'Anderson', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Marcus was last seen at his workplace in Anderson. A coworker reported he seemed distressed. His belongings were found at a nearby bridge.' },
-  { id: 'MP73456', firstName: 'Patricia', lastName: 'Odom', sex: 'Female', computedMissingMinAge: 67, computedMissingMaxAge: 67, dateMissing: '2014-11-03', cityOfLastContact: 'Kokomo', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Patricia walked away from her home in Kokomo. She has a history of dementia and is considered endangered.' },
-  { id: 'MP126745', firstName: 'Tyler', lastName: 'Renfrow', sex: 'Male', computedMissingMinAge: 23, computedMissingMaxAge: 23, dateMissing: '2022-08-14', cityOfLastContact: 'Columbus', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Tyler was last seen at a bar in Columbus. Friends say he left alone after midnight and was not seen again.' }
-];
+function getPhotoUrl(c) {
+  const id = c.namus2Number || c.id;
+  if (!id) return null;
+  // Use NamUs direct image URL - images are not CORS blocked
+  return NAMUS_BASE + '/api/CaseSets/NamUs/MissingPersons/Cases/' + id + '/Images/Default/Thumbnail';
+}
 
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-// SEARCH
-// ââââââââââââââââââââââââââââââââââââââââââââââ
 async function doSearch() {
   const opts = {
     firstName: document.getElementById('firstName').value.trim(),
@@ -773,55 +266,199 @@ async function doSearch() {
     sex: document.getElementById('sex').value,
     age: document.getElementById('age').value
   };
-
   setMainContent('loading');
   document.getElementById('resultsBar').style.display = 'none';
   document.getElementById('pagination').innerHTML = '';
-
   try {
-    const data = await fetchNamus(opts);
-    usingDemo = false;
-    document.getElementById('corsNotice').style.display = 'none';
-    allResults = (data.results || data.items || data || []);
-    processResults(opts);
-  } catch (err) {
-    // CORS or network error â use demo data
-    usingDemo = true;
-    document.getElementById('corsNotice').style.display = 'block';
-    // Filter demo data
-    let filtered = [...DEMO_CASES];
-    if (opts.firstName) filtered = filtered.filter(c => c.firstName.toLowerCase().startsWith(opts.firstName.toLowerCase()));
-    if (opts.lastName) filtered = filtered.filter(c => c.lastName.toLowerCase().startsWith(opts.lastName.toLowerCase()));
-    if (opts.sex) filtered = filtered.filter(c => c.sex === opts.sex);
-    allResults = filtered;
-    processResults(opts);
+    const data = await fetchSearch(opts);
+    allResults = data.results || [];
+    // Age filter client-side since API doesn't support it well
+    if (opts.age) {
+      const a = parseInt(opts.age);
+      allResults = allResults.filter(c => {
+        const mn = c.computedMissingMinAge, mx = c.computedMissingMaxAge;
+        return (mn == null || mn <= a + 5) && (mx == null || mx >= a - 5);
+      });
+    }
+    currentPage = 1;
+    applySort();
+  } catch(err) {
+    setMainContent('error');
+    console.error(err);
   }
-}
-
-function processResults(opts) {
-  filteredResults = [...allResults];
-  currentPage = 1;
-  applySort();
 }
 
 function applySort() {
   const sort = document.getElementById('sortBy').value;
+  filteredResults = [...allResults];
   filteredResults.sort((a, b) => {
-    const nameA = ((a.firstName||'') + ' ' + (a.lastName||'')).toLowerCase();
-    const nameB = ((b.firstName||'') + ' ' + (b.lastName||'')).toLowerCase();
-    const dateA = new Date(a.dateMissing||0).getTime();
-    const dateB = new Date(b.dateMissing||0).getTime();
-    const ageA = a.computedMissingMinAge||0;
-    const ageB = b.computedMissingMinAge||0;
-    if (sort === 'name-asc') return nameA.localeCompare(nameB);
-    if (sort === 'name-desc') return nameB.localeCompare(nameA);
-    if (sort === 'date-asc') return dateA - dateB;
-    if (sort === 'date-desc') return dateB - dateA;
-    if (sort === 'age-asc') return ageA - ageB;
-    if (sort === 'age-desc') return ageB - ageA;
+    const na = ((a.firstName||'') + ' ' + (a.lastName||'')).toLowerCase();
+    const nb = ((b.firstName||'') + ' ' + (b.lastName||'')).toLowerCase();
+    const da = new Date(a.dateOfLastContact||a.dateMissing||0).getTime();
+    const db = new Date(b.dateOfLastContact||b.dateMissing||0).getTime();
+    const aa = a.computedMissingMinAge||0, ab = b.computedMissingMinAge||0;
+    if (sort==='name-asc') return na.localeCompare(nb);
+    if (sort==='name-desc') return nb.localeCompare(na);
+    if (sort==='date-asc') return da-db;
+    if (sort==='date-desc') return db-da;
+    if (sort==='age-asc') return aa-ab;
+    if (sort==='age-desc') return ab-aa;
     return 0;
   });
   renderPage();
+}
+
+function renderPage() {
+  const total = filteredResults.length;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const start = (currentPage-1) * PAGE_SIZE;
+  const page = filteredResults.slice(start, start+PAGE_SIZE);
+
+  document.getElementById('resultsBar').style.display = 'flex';
+  document.getElementById('resultsCount').innerHTML = 'Showing <strong>' + (start+1) + '-' + Math.min(start+PAGE_SIZE, total) + '</strong> of <strong>' + total + '</strong> Indiana cases';
+
+  if (total === 0) { setMainContent('noresults'); document.getElementById('pagination').innerHTML=''; return; }
+
+  const grid = document.createElement('div');
+  grid.className = 'cards-grid';
+  page.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'person-card';
+    card.style.animationDelay = (i * 0.04) + 's';
+    const caseId = c.namus2Number || c.id;
+    card.onclick = () => openCase(caseId);
+
+    const age = c.computedMissingMinAge != null
+      ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : c.computedMissingMinAge + '-' + c.computedMissingMaxAge)
+      : '?';
+    const dateStr = c.dateOfLastContact ? new Date(c.dateOfLastContact).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}) : 'Unknown';
+    const city = c.cityOfLastContact || '';
+    const photoUrl = getPhotoUrl(c);
+    const isJuvenile = age !== '?' && parseInt(age) < 18;
+
+    card.innerHTML =
+      '<div class="card-photo-wrap">' +
+        (photoUrl
+          ? '<img class="card-photo" src="' + photoUrl + '" alt="Photo of ' + (c.firstName||'') + ' ' + (c.lastName||'') + '" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=card-no-photo><svg width=48 height=48 viewBox=\\\"0 0 24 24\\\" fill=none stroke=currentColor stroke-width=1.5><path d=\\\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\\\"/><circle cx=12 cy=7 r=4/></svg>No Photo</div>\'">'
+          : '<div class="card-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo</div>'
+        ) +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="card-name">' + (c.firstName||'') + ' ' + (c.lastName||'') + '</div>' +
+        '<div class="card-case">Case #' + (c.idFormatted || caseId || '?') + '</div>' +
+        '<div class="card-meta">' +
+          '<div class="card-meta-row"><strong>Age</strong>' + age + ' at disappearance</div>' +
+          '<div class="card-meta-row"><strong>Date</strong>' + dateStr + '</div>' +
+          (city ? '<div class="card-meta-row"><strong>City</strong>' + city + '</div>' : '') +
+          '<div class="card-meta-row"><strong>Sex</strong>' + (c.gender||c.sex||'?') + '</div>' +
+        '</div>' +
+        (isJuvenile ? '<span class="card-tag">Juvenile</span>' : '') +
+      '</div>';
+    grid.appendChild(card);
+  });
+
+  document.getElementById('mainContent').innerHTML = '';
+  document.getElementById('mainContent').appendChild(grid);
+  renderPagination(totalPages);
+}
+
+function renderPagination(totalPages) {
+  const pag = document.getElementById('pagination');
+  pag.innerHTML = '';
+  if (totalPages <= 1) return;
+  const add = (label, pg, disabled, active) => {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (active ? ' active' : '');
+    btn.textContent = label;
+    btn.disabled = disabled;
+    btn.onclick = () => { currentPage = pg; renderPage(); window.scrollTo({top:0,behavior:'smooth'}); };
+    pag.appendChild(btn);
+  };
+  add('Prev', currentPage-1, currentPage===1);
+  const pages = [...new Set([1, totalPages, currentPage, currentPage-1, currentPage+1].filter(p=>p>=1&&p<=totalPages))].sort((a,b)=>a-b);
+  let prev = null;
+  for (const p of pages) {
+    if (prev !== null && p-prev > 1) { const d=document.createElement('span'); d.textContent='...'; d.style.padding='0 4px'; pag.appendChild(d); }
+    add(p, p, false, p===currentPage);
+    prev = p;
+  }
+  add('Next', currentPage+1, currentPage===totalPages);
+}
+
+async function openCase(caseId) {
+  document.getElementById('modalName').textContent = 'Loading...';
+  document.getElementById('modalCaseNum').textContent = '';
+  document.getElementById('modalPhotoCol').innerHTML = '<div class="modal-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Loading...</div>';
+  document.getElementById('modalInfoCol').innerHTML = '<div class="state-box" style="padding:40px 0"><div class="spinner"></div><p>Loading case details...</p></div>';
+  document.getElementById('modalActions').innerHTML = '';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const c = await fetchCase(caseId);
+    renderModal(c);
+  } catch(err) {
+    document.getElementById('modalInfoCol').innerHTML = '<div class="state-box" style="padding:40px 0"><p>Could not load case details. <a href="https://www.namus.gov/MissingPersons/Case#/' + caseId + '" target="_blank">View on NamUs</a></p></div>';
+  }
+}
+
+function renderModal(c) {
+  if (!c) return;
+  const caseId = c.namus2Number || c.id;
+  const name = ((c.firstName||'') + ' ' + (c.middleName||'') + ' ' + (c.lastName||'')).replace(/\s+/g,' ').trim();
+  document.getElementById('modalName').textContent = name;
+  document.getElementById('modalCaseNum').textContent = 'NamUs Case #' + (c.idFormatted || caseId) + ' - Indiana';
+
+  // Photo - try to load from NamUs directly
+  const photoUrl = NAMUS_BASE + '/api/CaseSets/NamUs/MissingPersons/Cases/' + caseId + '/Images/Default/Thumbnail';
+  const photoEl = document.createElement('img');
+  photoEl.className = 'modal-photo';
+  photoEl.alt = 'Photo of ' + name;
+  photoEl.src = photoUrl;
+  photoEl.onerror = function() {
+    this.parentElement.innerHTML = '<div class="modal-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo on File</div>';
+  };
+  document.getElementById('modalPhotoCol').innerHTML = '';
+  document.getElementById('modalPhotoCol').appendChild(photoEl);
+
+  const age = c.computedMissingMinAge != null
+    ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : c.computedMissingMinAge + '-' + c.computedMissingMaxAge)
+    : '?';
+  const dateStr = (c.dateMissing||c.dateOfLastContact) ? new Date(c.dateMissing||c.dateOfLastContact).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : 'Unknown';
+  const circumstances = c.circumstancesOfDisappearance || c.circumstances || '';
+
+  document.getElementById('modalInfoCol').innerHTML =
+    '<div class="modal-section">' +
+      '<div class="modal-section-title">Case Information</div>' +
+      '<div class="info-grid">' +
+        '<div class="info-item"><div class="info-label">Date Missing</div><div class="info-value">' + dateStr + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Age at Disappearance</div><div class="info-value">' + age + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Sex</div><div class="info-value">' + (c.gender||c.sex||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Race / Ethnicity</div><div class="info-value">' + (c.raceEthnicity||c.race||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">City Last Seen</div><div class="info-value">' + (c.cityOfLastContact||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">County</div><div class="info-value">' + (c.countyDisplayNameOfLastContact||c.countyOfLastContact||'Unknown') + '</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="modal-section">' +
+      '<div class="modal-section-title">Physical Description</div>' +
+      '<div class="info-grid">' +
+        '<div class="info-item"><div class="info-label">Height</div><div class="info-value">' + fmtHeight(c.heightFrom||c.height) + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Weight</div><div class="info-value">' + ((c.weightFrom||c.weight) ? (c.weightFrom||c.weight) + ' lbs' : 'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Hair Color</div><div class="info-value">' + (c.hairColor||c.hair||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Eye Color</div><div class="info-value">' + (c.eyeColor||c.eyes||'Unknown') + '</div></div>' +
+      '</div>' +
+    '</div>' +
+    (circumstances ? '<div class="modal-section"><div class="modal-section-title">Circumstances of Disappearance</div><div class="circumstances-text">' + circumstances + '</div></div>' : '') +
+    (c.investigatingAgency||c.agencyName ? '<div class="modal-section"><div class="modal-section-title">Investigating Agency</div><div class="info-grid"><div class="info-item info-full"><div class="info-label">Agency</div><div class="info-value">' + (c.investigatingAgency||c.agencyName) + '</div></div></div></div>' : '');
+
+  document.getElementById('modalActions').innerHTML =
+    '<a class="btn-namus" href="https://www.namus.gov/MissingPersons/Case#/' + caseId + '" target="_blank">View on NamUs</a>' +
+    '<a class="btn-tip" href="https://www.in.gov/isp/contact-us/tips/" target="_blank">Submit a Tip</a>';
+}
+
+function fmtHeight(inches) {
+  if (!inches) return 'Unknown';
+  return Math.floor(inches/12) + "'" + (inches%12) + '"';
 }
 
 function clearSearch() {
@@ -831,259 +468,23 @@ function clearSearch() {
   document.getElementById('age').value = '';
   document.getElementById('resultsBar').style.display = 'none';
   document.getElementById('pagination').innerHTML = '';
-  document.getElementById('corsNotice').style.display = 'none';
   setMainContent('empty');
 }
 
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-// RENDER
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-function renderPage() {
-  const total = filteredResults.length;
-  const totalPages = Math.ceil(total / PAGE_SIZE);
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
-  const page = filteredResults.slice(start, end);
+function closeModal(e) { if (e.target===document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('open'); document.body.style.overflow=''; }
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalDirect(); });
 
-  const rb = document.getElementById('resultsBar');
-  rb.style.display = 'flex';
-  document.getElementById('resultsCount').innerHTML =
-    `Showing <strong>${start + 1}â${Math.min(end, total)}</strong> of <strong>${total}</strong> Indiana cases${usingDemo ? ' <em style="color:#b8292f">(demo data)</em>' : ''}`;
-
-  if (total === 0) {
-    setMainContent('noresults');
-    document.getElementById('pagination').innerHTML = '';
-    return;
-  }
-
-  const grid = document.createElement('div');
-  grid.className = 'cards-grid';
-
-  page.forEach((c, i) => {
-    const card = document.createElement('div');
-    card.className = 'person-card';
-    card.style.animationDelay = `${i * 0.04}s`;
-    card.onclick = () => openCase(c.namus2Number || c.id || c.caseId);
-
-    const caseId = c.namus2Number || c.id || c.caseId;
-    const age = c.computedMissingMinAge != null
-      ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : `${c.computedMissingMinAge}â${c.computedMissingMaxAge}`)
-      : '?';
-    const dateStr = (c.dateMissing || c.dateOfLastContact) ? new Date(c.dateMissing || c.dateOfLastContact).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'}) : 'Unknown';
-    const city = c.cityOfLastContact || c.city || '';
-    const photoUrl = getPhotoUrl(c);
-
-    card.innerHTML = `
-      ${photoUrl
-        ? `<img class="card-photo" src="${photoUrl}" alt="Photo of ${c.firstName} ${c.lastName}" loading="lazy" onerror="this.outerHTML=noPhotoHTML()">`
-        : `<div class="card-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo</div>`
-      }
-      <div class="card-body">
-        <div class="card-name">${c.firstName || ''} ${c.lastName || ''}</div>
-        <div class="card-case">Case #${c.id || c.caseId || c.namus2Number || 'â'}</div>
-        <div class="card-meta">
-          <div class="card-meta-row"><strong>Age</strong> ${age} at disappearance</div>
-          <div class="card-meta-row"><strong>Date</strong> ${dateStr}</div>
-          ${city ? `<div class="card-meta-row"><strong>City</strong> ${city}</div>` : ''}
-          <div class="card-meta-row"><strong>Sex</strong> ${c.sex || c.gender || 'â'}</div>
-        </div>
-        ${(age !== '?' && parseInt(age) < 18) ? '<span class="card-tag">â  Juvenile</span>' : ''}
-      </div>`;
-    grid.appendChild(card);
-  });
-
-  document.getElementById('mainContent').innerHTML = '';
-  document.getElementById('mainContent').appendChild(grid);
-
-  renderPagination(totalPages);
-}
-
-function noPhotoHTML() {
-  return `<div class="card-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo</div>`;
-}
-
-function getPhotoUrl(c) {
-  if (c.images && c.images.length) {
-    const img = c.images[0];
-    if (img.files && img.files.thumbnail) return 'https://www.namus.gov' + img.files.thumbnail.href;
-    if (img.files && img.files.original) return 'https://www.namus.gov' + img.files.original.href;
-  }
-  if (c.hasPrimaryImage && (c.id || c.caseId || c.namus2Number)) {
-    return `https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/${c.id||c.caseId||c.namus2Number}/Images/Primary/Thumbnail`;
-  }
-  return null;
-}
-
-function renderPagination(totalPages) {
-  const pag = document.getElementById('pagination');
-  pag.innerHTML = '';
-  if (totalPages <= 1) return;
-
-  const addBtn = (label, page, disabled, active) => {
-    const btn = document.createElement('button');
-    btn.className = 'page-btn' + (active ? ' active' : '');
-    btn.textContent = label;
-    btn.disabled = disabled;
-    btn.onclick = () => { currentPage = page; renderPage(); window.scrollTo({top:0,behavior:'smooth'}); };
-    pag.appendChild(btn);
-  };
-
-  addBtn('â¹ Prev', currentPage - 1, currentPage === 1);
-  const range = pageRange(currentPage, totalPages);
-  let prev = null;
-  for (const p of range) {
-    if (prev !== null && p - prev > 1) {
-      const dots = document.createElement('span');
-      dots.textContent = 'â¦';
-      dots.style.cssText = 'padding:0 4px;color:#aaa;';
-      pag.appendChild(dots);
-    }
-    addBtn(p, p, false, p === currentPage);
-    prev = p;
-  }
-  addBtn('Next âº', currentPage + 1, currentPage === totalPages);
-}
-
-function pageRange(cur, total) {
-  const pages = new Set([1, total, cur, cur-1, cur+1].filter(p => p >= 1 && p <= total));
-  return [...pages].sort((a,b) => a-b);
-}
-
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-// MODAL
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-async function openCase(caseId) {
-  document.getElementById('modalName').textContent = 'Loading...';
-  document.getElementById('modalCaseNum').textContent = '';
-  document.getElementById('modalPhotoCol').innerHTML = `<div class="modal-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Loading...</div>`;
-  document.getElementById('modalInfoCol').innerHTML = `<div class="state-box" style="padding:40px 0"><div class="spinner"></div><p>Loading case details...</p></div>`;
-  document.getElementById('modalActions').innerHTML = '';
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-
-  try {
-    let c;
-    if (usingDemo) {
-      c = DEMO_CASES.find(x => x.id === caseId);
-    } else {
-      c = await fetchCase(caseId);
-    }
-    renderModal(c);
-  } catch(err) {
-    // try demo fallback
-    const c = DEMO_CASES.find(x => x.id === caseId);
-    if (c) renderModal(c);
-    else {
-      document.getElementById('modalInfoCol').innerHTML = `<div class="state-box" style="padding:40px 0"><div class="icon">â ï¸</div><h3>Could not load case</h3><p>There was an error retrieving this case from NamUs. Please visit NamUs directly.</p></div>`;
-    }
-  }
-}
-
-function renderModal(c) {
-  if (!c) return;
-  const name = `${c.firstName||''} ${c.middleName||''} ${c.lastName||''}`.replace(/\s+/g,' ').trim();
-  document.getElementById('modalName').textContent = name;
-  document.getElementById('modalCaseNum').textContent = `NamUs Case #${c.id || c.caseId || c.namus2Number || 'â'} Â· Indiana`;
-
-  // Photo
-  const photoUrl = getPhotoUrl(c);
-  document.getElementById('modalPhotoCol').innerHTML = photoUrl
-    ? `<img class="modal-photo" src="${photoUrl}" alt="Photo of ${name}" onerror="this.outerHTML='<div class=modal-no-photo><svg width=48 height=48 viewBox=\\'0 0 24 24\\' fill=none stroke=currentColor stroke-width=1.5><path d=\\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\\'/><circle cx=12 cy=7 r=4/></svg>No Photo</div>'">`
-    : `<div class="modal-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo on File</div>`;
-
-  const age = c.computedMissingMinAge != null
-    ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : `${c.computedMissingMinAge}â${c.computedMissingMaxAge}`)
-    : (c.age || 'â');
-  const dateStr = c.dateMissing ? new Date(c.dateMissing).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : 'â';
-  const circumstances = c.circumstancesOfDisappearance || c.circumstances || 'â';
-
-  document.getElementById('modalInfoCol').innerHTML = `
-    <div class="modal-section">
-      <div class="modal-section-title">Case Information</div>
-      <div class="info-grid">
-        <div class="info-item"><div class="info-label">Date Missing</div><div class="info-value">${dateStr}</div></div>
-        <div class="info-item"><div class="info-label">Age at Disappearance</div><div class="info-value">${age}</div></div>
-        <div class="info-item"><div class="info-label">Sex</div><div class="info-value">${c.sex || c.gender || 'â'}</div></div>
-        <div class="info-item"><div class="info-label">Race / Ethnicity</div><div class="info-value">${c.race || 'â'}${c.ethnicity && c.ethnicity !== c.race ? ' / '+c.ethnicity : ''}</div></div>
-        <div class="info-item"><div class="info-label">City Last Seen</div><div class="info-value">${c.cityOfLastContact || c.city || 'â'}</div></div>
-        <div class="info-item"><div class="info-label">County</div><div class="info-value">${c.countyOfLastContact || c.county || 'â'}</div></div>
-      </div>
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-title">Physical Description</div>
-      <div class="info-grid">
-        <div class="info-item"><div class="info-label">Height</div><div class="info-value">${c.heightFrom || c.height ? fmtHeight(c.heightFrom || c.height) : 'â'}</div></div>
-        <div class="info-item"><div class="info-label">Weight</div><div class="info-value">${c.weightFrom || c.weight ? (c.weightFrom || c.weight) + ' lbs' : 'â'}</div></div>
-        <div class="info-item"><div class="info-label">Hair Color</div><div class="info-value">${c.hairColor || c.hair || 'â'}</div></div>
-        <div class="info-item"><div class="info-label">Eye Color</div><div class="info-value">${c.eyeColor || c.eyes || 'â'}</div></div>
-      </div>
-    </div>
-    ${circumstances && circumstances !== 'â' ? `
-    <div class="modal-section">
-      <div class="modal-section-title">Circumstances of Disappearance</div>
-      <div class="circumstances-text">${circumstances}</div>
-    </div>` : ''}
-    ${c.investigatingAgency || c.agencyName ? `
-    <div class="modal-section">
-      <div class="modal-section-title">Investigating Agency</div>
-      <div class="info-grid">
-        <div class="info-item info-full"><div class="info-label">Agency</div><div class="info-value">${c.investigatingAgency || c.agencyName || 'â'}</div></div>
-        ${c.agencyPhone ? `<div class="info-item"><div class="info-label">Phone</div><div class="info-value"><a href="tel:${c.agencyPhone}">${c.agencyPhone}</a></div></div>` : ''}
-      </div>
-    </div>` : ''}
-  `;
-
-  const namusId = c.id || c.caseId || c.namus2Number;
-  document.getElementById('modalActions').innerHTML = `
-    <a class="btn-namus" href="https://www.namus.gov/MissingPersons/Case#/${namusId}" target="_blank">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      View on NamUs
-    </a>
-    <a class="btn-tip" href="https://www.in.gov/isp/contact-us/tips/" target="_blank">
-      ð Submit a Tip
-    </a>
-  `;
-}
-
-function fmtHeight(inches) {
-  if (!inches) return 'â';
-  const ft = Math.floor(inches / 12);
-  const inn = inches % 12;
-  return `${ft}'${inn}" (${inches} in)`;
-}
-
-function closeModal(e) {
-  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
-}
-function closeModalDirect() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
-
-// ââââââââââââââââââââââââââââââââââââââââââââââ
-// UI STATES
-// ââââââââââââââââââââââââââââââââââââââââââââââ
 function setMainContent(state) {
   const el = document.getElementById('mainContent');
-  if (state === 'loading') {
-    el.innerHTML = `<div class="state-box"><div class="spinner"></div><h3>Searching NamUs Database...</h3><p>Querying Indiana missing persons cases. This may take a moment.</p></div>`;
-  } else if (state === 'empty') {
-    el.innerHTML = `<div class="state-box"><div class="icon">ð</div><h3>Search Indiana Missing Persons</h3><p>Use the filters above to search the NamUs database for missing persons cases in Indiana.</p></div>`;
-  } else if (state === 'noresults') {
-    el.innerHTML = `<div class="state-box"><div class="icon">ð­</div><h3>No Cases Found</h3><p>No Indiana missing persons cases matched your search. Try adjusting your filters or clearing them to see all cases.</p></div>`;
-  }
+  if (state==='loading') el.innerHTML='<div class="state-box"><div class="spinner"></div><h3>Searching NamUs Database...</h3><p>Querying Indiana missing persons cases.</p></div>';
+  else if (state==='empty') el.innerHTML='<div class="state-box"><div class="icon">&#128269;</div><h3>Search Indiana Missing Persons</h3><p>Use the filters above to search the NamUs database for missing persons cases in Indiana.</p></div>';
+  else if (state==='noresults') el.innerHTML='<div class="state-box"><div class="icon">&#128205;</div><h3>No Cases Found</h3><p>No Indiana missing persons cases matched your search. Try adjusting your filters.</p></div>';
+  else if (state==='error') el.innerHTML='<div class="state-box"><div class="icon">&#9888;</div><h3>Could Not Load Data</h3><p>There was an error connecting to NamUs. Please try again.</p></div>';
 }
 
-// ââ Allow Enter key to trigger search ââ
-document.querySelectorAll('input').forEach(inp => {
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
-});
-
-// ââ Initial auto-search on load ââ
-window.addEventListener('load', () => {
-  doSearch();
-});
+document.querySelectorAll('input').forEach(i => i.addEventListener('keydown', e => { if(e.key==='Enter') doSearch(); }));
+window.addEventListener('load', doSearch);
 </script>
 </body>
 </html>
