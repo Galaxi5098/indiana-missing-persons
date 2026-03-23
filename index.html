@@ -336,13 +336,16 @@ function renderPage() {
     const photoUrl = getPhotoUrl(c);
     const isJuvenile = age !== '?' && parseInt(age) < 18;
 
-    card.innerHTML =
-      '<div class="card-photo-wrap">' +
-        (photoUrl
-          ? '<img class="card-photo" src="' + photoUrl + '" alt="Photo of ' + (c.firstName||'') + ' ' + (c.lastName||'') + '" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=card-no-photo><svg width=48 height=48 viewBox=\\\"0 0 24 24\\\" fill=none stroke=currentColor stroke-width=1.5><path d=\\\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\\\"/><circle cx=12 cy=7 r=4/></svg>No Photo</div>\'">'
-          : '<div class="card-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo</div>'
-        ) +
-      '</div>' +
+    const _pw = document.createElement('div');
+    _pw.className = 'card-photo-wrap';
+    if (photoUrl) {
+      const _img = document.createElement('img');
+      _img.className = 'card-photo'; _img.src = photoUrl; _img.alt = 'Photo'; _img.loading = 'lazy';
+      _img.onerror = function(){ this.parentElement.innerHTML = '<div class="card-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo</div>'; };
+      _pw.appendChild(_img);
+    } else { _pw.innerHTML = '<div class="card-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo</div>'; }
+    card.appendChild(_pw);
+    card.innerHTML +=
       '<div class="card-body">' +
         '<div class="card-name">' + (c.firstName||'') + ' ' + (c.lastName||'') + '</div>' +
         '<div class="card-case">Case #' + (c.idFormatted || caseId || '?') + '</div>' +
@@ -421,11 +424,17 @@ function renderModal(c) {
   document.getElementById('modalPhotoCol').innerHTML = '';
   document.getElementById('modalPhotoCol').appendChild(photoEl);
 
-  const age = c.computedMissingMinAge != null
-    ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : c.computedMissingMinAge + '-' + c.computedMissingMaxAge)
+  const _si = c.subjectIdentification || {};
+  const _sd = c.subjectDescription || {};
+  const _sg = c.sighting || {};
+  const _ph = c.physicalDescription || {};
+  const _ci = c.circumstances || {};
+  const _ag = c.primaryInvestigatingAgency || {};
+  const age = (_si.computedMissingMinAge != null)
+    ? (_si.computedMissingMinAge === _si.computedMissingMaxAge ? _si.computedMissingMinAge : _si.computedMissingMinAge + '-' + _si.computedMissingMaxAge)
     : '?';
-  const dateStr = (c.dateMissing||c.dateOfLastContact) ? new Date(c.dateMissing||c.dateOfLastContact).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : 'Unknown';
-  const circumstances = c.circumstancesOfDisappearance || c.circumstances || '';
+  const dateStr = _sg.date ? new Date(_sg.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : 'Unknown';
+  const circumstances = _ci.circumstancesOfDisappearance || '';
 
   document.getElementById('modalInfoCol').innerHTML =
     '<div class="modal-section">' +
@@ -433,23 +442,23 @@ function renderModal(c) {
       '<div class="info-grid">' +
         '<div class="info-item"><div class="info-label">Date Missing</div><div class="info-value">' + dateStr + '</div></div>' +
         '<div class="info-item"><div class="info-label">Age at Disappearance</div><div class="info-value">' + age + '</div></div>' +
-        '<div class="info-item"><div class="info-label">Sex</div><div class="info-value">' + (c.gender||c.sex||'Unknown') + '</div></div>' +
-        '<div class="info-item"><div class="info-label">Race / Ethnicity</div><div class="info-value">' + (c.raceEthnicity||c.race||'Unknown') + '</div></div>' +
-        '<div class="info-item"><div class="info-label">City Last Seen</div><div class="info-value">' + (c.cityOfLastContact||'Unknown') + '</div></div>' +
-        '<div class="info-item"><div class="info-label">County</div><div class="info-value">' + (c.countyDisplayNameOfLastContact||c.countyOfLastContact||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Sex</div><div class="info-value">' + ((_sd.sex&&_sd.sex.name)||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Race / Ethnicity</div><div class="info-value">' + ((_sd.primaryEthnicity&&_sd.primaryEthnicity.name)||(_sd.ethnicities&&_sd.ethnicities[0]&&_sd.ethnicities[0].name)||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">City Last Seen</div><div class="info-value">' + ((_sg.address&&_sg.address.city)||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">County</div><div class="info-value">' + ((_sg.address&&_sg.address.county&&_sg.address.county.name)||'Unknown') + '</div></div>' +
       '</div>' +
     '</div>' +
     '<div class="modal-section">' +
       '<div class="modal-section-title">Physical Description</div>' +
       '<div class="info-grid">' +
-        '<div class="info-item"><div class="info-label">Height</div><div class="info-value">' + fmtHeight(c.heightFrom||c.height) + '</div></div>' +
-        '<div class="info-item"><div class="info-label">Weight</div><div class="info-value">' + ((c.weightFrom||c.weight) ? (c.weightFrom||c.weight) + ' lbs' : 'Unknown') + '</div></div>' +
-        '<div class="info-item"><div class="info-label">Hair Color</div><div class="info-value">' + (c.hairColor||c.hair||'Unknown') + '</div></div>' +
-        '<div class="info-item"><div class="info-label">Eye Color</div><div class="info-value">' + (c.eyeColor||c.eyes||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Height</div><div class="info-value">' + fmtHeight(_sd.heightFrom) + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Weight</div><div class="info-value">' + (_sd.weightFrom ? _sd.weightFrom + '-' + _sd.weightTo + ' lbs' : 'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Hair Color</div><div class="info-value">' + ((_ph.hairColor&&_ph.hairColor.name)||'Unknown') + '</div></div>' +
+        '<div class="info-item"><div class="info-label">Eye Color</div><div class="info-value">' + ((_ph.leftEyeColor&&_ph.leftEyeColor.name)||'Unknown') + '</div></div>' +
       '</div>' +
     '</div>' +
     (circumstances ? '<div class="modal-section"><div class="modal-section-title">Circumstances of Disappearance</div><div class="circumstances-text">' + circumstances + '</div></div>' : '') +
-    (c.investigatingAgency||c.agencyName ? '<div class="modal-section"><div class="modal-section-title">Investigating Agency</div><div class="info-grid"><div class="info-item info-full"><div class="info-label">Agency</div><div class="info-value">' + (c.investigatingAgency||c.agencyName) + '</div></div></div></div>' : '');
+    (_ag.name ? '<div class="modal-section"><div class="modal-section-title">Investigating Agency</div><div class="info-grid"><div class="info-item info-full"><div class="info-label">Agency</div><div class="info-value">' + _ag.name + '</div></div></div></div>' : '');
 
   document.getElementById('modalActions').innerHTML =
     '<a class="btn-namus" href="https://www.namus.gov/MissingPersons/Case#/' + caseId + '" target="_blank">View on NamUs</a>' +
