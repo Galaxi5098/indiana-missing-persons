@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indiana Missing Persons — NamUs Database</title>
+<title>Indiana Missing Persons â NamUs Database</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -32,7 +32,7 @@
     min-height: 100vh;
   }
 
-  /* ── HEADER ── */
+  /* ââ HEADER ââ */
   header {
     background: var(--navy);
     color: var(--white);
@@ -85,7 +85,7 @@
     white-space: nowrap;
   }
 
-  /* ── HERO STRIP ── */
+  /* ââ HERO STRIP ââ */
   .hero-strip {
     background: var(--red);
     color: white;
@@ -97,14 +97,14 @@
   }
   .hero-strip a { color: var(--gold-light); text-decoration: underline; }
 
-  /* ── MAIN LAYOUT ── */
+  /* ââ MAIN LAYOUT ââ */
   .layout {
     max-width: 1300px;
     margin: 0 auto;
     padding: 32px 32px 60px;
   }
 
-  /* ── SEARCH PANEL ── */
+  /* ââ SEARCH PANEL ââ */
   .search-panel {
     background: var(--navy);
     border-radius: 12px;
@@ -199,7 +199,7 @@
   .btn-clear:hover { color: white; border-color: rgba(255,255,255,0.5); }
   .search-btn-wrap { display: flex; flex-direction: column; }
 
-  /* ── RESULTS STATS ── */
+  /* ââ RESULTS STATS ââ */
   .results-bar {
     display: flex;
     align-items: center;
@@ -226,7 +226,7 @@
     cursor: pointer;
   }
 
-  /* ── CARDS GRID ── */
+  /* ââ CARDS GRID ââ */
   .cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -320,7 +320,7 @@
     text-transform: uppercase;
   }
 
-  /* ── LOADING / EMPTY ── */
+  /* ââ LOADING / EMPTY ââ */
   .state-box {
     text-align: center;
     padding: 80px 20px;
@@ -344,7 +344,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── PAGINATION ── */
+  /* ââ PAGINATION ââ */
   .pagination {
     display: flex;
     justify-content: center;
@@ -370,7 +370,7 @@
   .page-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); font-weight: 700; }
   .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-  /* ── MODAL ── */
+  /* ââ MODAL ââ */
   .modal-overlay {
     display: none;
     position: fixed; inset: 0;
@@ -549,7 +549,7 @@
   }
   .btn-tip:hover { background: #9e2025; }
 
-  /* ── ERROR NOTICE ── */
+  /* ââ ERROR NOTICE ââ */
   .cors-notice {
     background: #fff3cd;
     border: 1px solid #ffc107;
@@ -562,7 +562,7 @@
   }
   .cors-notice strong { display: block; margin-bottom: 4px; }
 
-  /* ── FOOTER ── */
+  /* ââ FOOTER ââ */
   footer {
     background: var(--navy);
     color: rgba(255,255,255,0.45);
@@ -580,10 +580,10 @@
 
 <header>
   <div class="header-inner">
-    <div class="header-seal" title="Indiana">🏛️</div>
+    <div class="header-seal" title="Indiana">ðï¸</div>
     <div class="header-text">
       <h1>Indiana Missing Persons</h1>
-      <p>Powered by NamUs · National Missing &amp; Unidentified Persons System</p>
+      <p>Powered by NamUs Â· National Missing &amp; Unidentified Persons System</p>
     </div>
     <span class="header-badge">Public Database</span>
   </div>
@@ -631,8 +631,8 @@
   </div>
 
   <div class="cors-notice" id="corsNotice">
-    <strong>⚠️ Note: Running in Demo Mode</strong>
-    This page is displaying sample data because direct browser access to the NamUs API is restricted by CORS policy. To deploy this fully, the page needs to be served from a backend proxy or server. The UI and all features are functional — just connect to a server-side NamUs proxy.
+    <strong>â ï¸ Note: Running in Demo Mode</strong>
+    This page is displaying sample data because direct browser access to the NamUs API is restricted by CORS policy. To deploy this fully, the page needs to be served from a backend proxy or server. The UI and all features are functional â just connect to a server-side NamUs proxy.
   </div>
 
   <div class="results-bar" id="resultsBar" style="display:none">
@@ -642,8 +642,8 @@
       <select id="sortBy" onchange="applySort()">
         <option value="date-desc">Missing Date (Newest)</option>
         <option value="date-asc">Missing Date (Oldest)</option>
-        <option value="name-asc">Name (A–Z)</option>
-        <option value="name-desc">Name (Z–A)</option>
+        <option value="name-asc">Name (AâZ)</option>
+        <option value="name-desc">Name (ZâA)</option>
         <option value="age-asc">Age (Youngest)</option>
         <option value="age-desc">Age (Oldest)</option>
       </select>
@@ -652,7 +652,7 @@
 
   <div id="mainContent">
     <div class="state-box">
-      <div class="icon">🔍</div>
+      <div class="icon">ð</div>
       <h3>Search Indiana Missing Persons</h3>
       <p>Use the filters above to search the NamUs database for missing persons cases in Indiana. Click any case card to view full details.</p>
     </div>
@@ -669,7 +669,7 @@
         <h2 id="modalName">Loading...</h2>
         <p id="modalCaseNum"></p>
       </div>
-      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <button class="modal-close" onclick="closeModalDirect()">â</button>
     </div>
     <div class="modal-body">
       <div class="modal-photo-col" id="modalPhotoCol">
@@ -691,28 +691,28 @@
 
 <footer>
   Data sourced from the <a href="https://www.namus.gov" target="_blank">National Missing &amp; Unidentified Persons System (NamUs)</a>, administered by the U.S. Department of Justice's National Institute of Justice.<br>
-  For law enforcement use, contact <a href="https://www.in.gov/isp/" target="_blank">Indiana State Police</a> · All case data is publicly available per NamUs guidelines.<br>
+  For law enforcement use, contact <a href="https://www.in.gov/isp/" target="_blank">Indiana State Police</a> Â· All case data is publicly available per NamUs guidelines.<br>
   <span style="opacity:0.5; font-size:0.7rem">This interface is not affiliated with or endorsed by NamUs or the Indiana State Police.</span>
 </footer>
 
 <script>
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 // STATE
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 let allResults = [];
 let filteredResults = [];
 let currentPage = 1;
 const PAGE_SIZE = 24;
 let usingDemo = false;
 
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 // NAMUS API HELPERS
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 const BASE = 'https://namus-proxy.galaxi5098.workers.dev';
 
 async function fetchNamus(opts = {}) {
   const predicates = [
-    { field: 'stateOfLastContact', operator: 'IsIn', values: ['IN'] }
+    { field: 'stateOfLastContact', operator: 'IsIn', values: ['Indiana'] }
   ];
   if (opts.firstName) predicates.push({ field: 'firstName', operator: 'StartsWith', values: [opts.firstName] });
   if (opts.lastName) predicates.push({ field: 'lastName', operator: 'StartsWith', values: [opts.lastName] });
@@ -744,9 +744,9 @@ async function fetchCase(caseId) {
   return resp.json();
 }
 
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 // DEMO / SAMPLE DATA (fallback if CORS blocked)
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 const DEMO_CASES = [
   { id: 'MP93761', firstName: 'Ashley', lastName: 'Nolen', sex: 'Female', computedMissingMinAge: 28, computedMissingMaxAge: 28, dateMissing: '2019-03-15', cityOfLastContact: 'Indianapolis', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Ashley was last seen leaving her apartment in Indianapolis. She had been in contact with family the day before her disappearance. Her vehicle was found abandoned near I-70.' },
   { id: 'MP87432', firstName: 'James', lastName: 'Weatherton', sex: 'Male', computedMissingMinAge: 45, computedMissingMaxAge: 45, dateMissing: '2017-07-22', cityOfLastContact: 'Fort Wayne', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'James was last seen at his residence in Fort Wayne. He had told neighbors he was going fishing but never returned.' },
@@ -762,9 +762,9 @@ const DEMO_CASES = [
   { id: 'MP126745', firstName: 'Tyler', lastName: 'Renfrow', sex: 'Male', computedMissingMinAge: 23, computedMissingMaxAge: 23, dateMissing: '2022-08-14', cityOfLastContact: 'Columbus', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Tyler was last seen at a bar in Columbus. Friends say he left alone after midnight and was not seen again.' }
 ];
 
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 // SEARCH
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 async function doSearch() {
   const opts = {
     firstName: document.getElementById('firstName').value.trim(),
@@ -784,7 +784,7 @@ async function doSearch() {
     allResults = (data.results || data.items || data || []);
     processResults(opts);
   } catch (err) {
-    // CORS or network error — use demo data
+    // CORS or network error â use demo data
     usingDemo = true;
     document.getElementById('corsNotice').style.display = 'block';
     // Filter demo data
@@ -834,9 +834,9 @@ function clearSearch() {
   setMainContent('empty');
 }
 
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 // RENDER
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 function renderPage() {
   const total = filteredResults.length;
   const totalPages = Math.ceil(total / PAGE_SIZE);
@@ -847,7 +847,7 @@ function renderPage() {
   const rb = document.getElementById('resultsBar');
   rb.style.display = 'flex';
   document.getElementById('resultsCount').innerHTML =
-    `Showing <strong>${start + 1}–${Math.min(end, total)}</strong> of <strong>${total}</strong> Indiana cases${usingDemo ? ' <em style="color:#b8292f">(demo data)</em>' : ''}`;
+    `Showing <strong>${start + 1}â${Math.min(end, total)}</strong> of <strong>${total}</strong> Indiana cases${usingDemo ? ' <em style="color:#b8292f">(demo data)</em>' : ''}`;
 
   if (total === 0) {
     setMainContent('noresults');
@@ -865,7 +865,7 @@ function renderPage() {
     card.onclick = () => openCase(c.id || c.caseId || c.namus2Number);
 
     const age = c.computedMissingMinAge != null
-      ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : `${c.computedMissingMinAge}–${c.computedMissingMaxAge}`)
+      ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : `${c.computedMissingMinAge}â${c.computedMissingMaxAge}`)
       : '?';
     const dateStr = c.dateMissing ? new Date(c.dateMissing).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'}) : 'Unknown';
     const city = c.cityOfLastContact || c.city || '';
@@ -878,14 +878,14 @@ function renderPage() {
       }
       <div class="card-body">
         <div class="card-name">${c.firstName || ''} ${c.lastName || ''}</div>
-        <div class="card-case">Case #${c.id || c.caseId || c.namus2Number || '—'}</div>
+        <div class="card-case">Case #${c.id || c.caseId || c.namus2Number || 'â'}</div>
         <div class="card-meta">
           <div class="card-meta-row"><strong>Age</strong> ${age} at disappearance</div>
           <div class="card-meta-row"><strong>Date</strong> ${dateStr}</div>
           ${city ? `<div class="card-meta-row"><strong>City</strong> ${city}</div>` : ''}
-          <div class="card-meta-row"><strong>Sex</strong> ${c.sex || c.gender || '—'}</div>
+          <div class="card-meta-row"><strong>Sex</strong> ${c.sex || c.gender || 'â'}</div>
         </div>
-        ${(age !== '?' && parseInt(age) < 18) ? '<span class="card-tag">⚠ Juvenile</span>' : ''}
+        ${(age !== '?' && parseInt(age) < 18) ? '<span class="card-tag">â  Juvenile</span>' : ''}
       </div>`;
     grid.appendChild(card);
   });
@@ -926,20 +926,20 @@ function renderPagination(totalPages) {
     pag.appendChild(btn);
   };
 
-  addBtn('‹ Prev', currentPage - 1, currentPage === 1);
+  addBtn('â¹ Prev', currentPage - 1, currentPage === 1);
   const range = pageRange(currentPage, totalPages);
   let prev = null;
   for (const p of range) {
     if (prev !== null && p - prev > 1) {
       const dots = document.createElement('span');
-      dots.textContent = '…';
+      dots.textContent = 'â¦';
       dots.style.cssText = 'padding:0 4px;color:#aaa;';
       pag.appendChild(dots);
     }
     addBtn(p, p, false, p === currentPage);
     prev = p;
   }
-  addBtn('Next ›', currentPage + 1, currentPage === totalPages);
+  addBtn('Next âº', currentPage + 1, currentPage === totalPages);
 }
 
 function pageRange(cur, total) {
@@ -947,9 +947,9 @@ function pageRange(cur, total) {
   return [...pages].sort((a,b) => a-b);
 }
 
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 // MODAL
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 async function openCase(caseId) {
   document.getElementById('modalName').textContent = 'Loading...';
   document.getElementById('modalCaseNum').textContent = '';
@@ -972,7 +972,7 @@ async function openCase(caseId) {
     const c = DEMO_CASES.find(x => x.id === caseId);
     if (c) renderModal(c);
     else {
-      document.getElementById('modalInfoCol').innerHTML = `<div class="state-box" style="padding:40px 0"><div class="icon">⚠️</div><h3>Could not load case</h3><p>There was an error retrieving this case from NamUs. Please visit NamUs directly.</p></div>`;
+      document.getElementById('modalInfoCol').innerHTML = `<div class="state-box" style="padding:40px 0"><div class="icon">â ï¸</div><h3>Could not load case</h3><p>There was an error retrieving this case from NamUs. Please visit NamUs directly.</p></div>`;
     }
   }
 }
@@ -981,7 +981,7 @@ function renderModal(c) {
   if (!c) return;
   const name = `${c.firstName||''} ${c.middleName||''} ${c.lastName||''}`.replace(/\s+/g,' ').trim();
   document.getElementById('modalName').textContent = name;
-  document.getElementById('modalCaseNum').textContent = `NamUs Case #${c.id || c.caseId || c.namus2Number || '—'} · Indiana`;
+  document.getElementById('modalCaseNum').textContent = `NamUs Case #${c.id || c.caseId || c.namus2Number || 'â'} Â· Indiana`;
 
   // Photo
   const photoUrl = getPhotoUrl(c);
@@ -990,10 +990,10 @@ function renderModal(c) {
     : `<div class="modal-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo on File</div>`;
 
   const age = c.computedMissingMinAge != null
-    ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : `${c.computedMissingMinAge}–${c.computedMissingMaxAge}`)
-    : (c.age || '—');
-  const dateStr = c.dateMissing ? new Date(c.dateMissing).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : '—';
-  const circumstances = c.circumstancesOfDisappearance || c.circumstances || '—';
+    ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : `${c.computedMissingMinAge}â${c.computedMissingMaxAge}`)
+    : (c.age || 'â');
+  const dateStr = c.dateMissing ? new Date(c.dateMissing).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : 'â';
+  const circumstances = c.circumstancesOfDisappearance || c.circumstances || 'â';
 
   document.getElementById('modalInfoCol').innerHTML = `
     <div class="modal-section">
@@ -1001,22 +1001,22 @@ function renderModal(c) {
       <div class="info-grid">
         <div class="info-item"><div class="info-label">Date Missing</div><div class="info-value">${dateStr}</div></div>
         <div class="info-item"><div class="info-label">Age at Disappearance</div><div class="info-value">${age}</div></div>
-        <div class="info-item"><div class="info-label">Sex</div><div class="info-value">${c.sex || c.gender || '—'}</div></div>
-        <div class="info-item"><div class="info-label">Race / Ethnicity</div><div class="info-value">${c.race || '—'}${c.ethnicity && c.ethnicity !== c.race ? ' / '+c.ethnicity : ''}</div></div>
-        <div class="info-item"><div class="info-label">City Last Seen</div><div class="info-value">${c.cityOfLastContact || c.city || '—'}</div></div>
-        <div class="info-item"><div class="info-label">County</div><div class="info-value">${c.countyOfLastContact || c.county || '—'}</div></div>
+        <div class="info-item"><div class="info-label">Sex</div><div class="info-value">${c.sex || c.gender || 'â'}</div></div>
+        <div class="info-item"><div class="info-label">Race / Ethnicity</div><div class="info-value">${c.race || 'â'}${c.ethnicity && c.ethnicity !== c.race ? ' / '+c.ethnicity : ''}</div></div>
+        <div class="info-item"><div class="info-label">City Last Seen</div><div class="info-value">${c.cityOfLastContact || c.city || 'â'}</div></div>
+        <div class="info-item"><div class="info-label">County</div><div class="info-value">${c.countyOfLastContact || c.county || 'â'}</div></div>
       </div>
     </div>
     <div class="modal-section">
       <div class="modal-section-title">Physical Description</div>
       <div class="info-grid">
-        <div class="info-item"><div class="info-label">Height</div><div class="info-value">${c.heightFrom || c.height ? fmtHeight(c.heightFrom || c.height) : '—'}</div></div>
-        <div class="info-item"><div class="info-label">Weight</div><div class="info-value">${c.weightFrom || c.weight ? (c.weightFrom || c.weight) + ' lbs' : '—'}</div></div>
-        <div class="info-item"><div class="info-label">Hair Color</div><div class="info-value">${c.hairColor || c.hair || '—'}</div></div>
-        <div class="info-item"><div class="info-label">Eye Color</div><div class="info-value">${c.eyeColor || c.eyes || '—'}</div></div>
+        <div class="info-item"><div class="info-label">Height</div><div class="info-value">${c.heightFrom || c.height ? fmtHeight(c.heightFrom || c.height) : 'â'}</div></div>
+        <div class="info-item"><div class="info-label">Weight</div><div class="info-value">${c.weightFrom || c.weight ? (c.weightFrom || c.weight) + ' lbs' : 'â'}</div></div>
+        <div class="info-item"><div class="info-label">Hair Color</div><div class="info-value">${c.hairColor || c.hair || 'â'}</div></div>
+        <div class="info-item"><div class="info-label">Eye Color</div><div class="info-value">${c.eyeColor || c.eyes || 'â'}</div></div>
       </div>
     </div>
-    ${circumstances && circumstances !== '—' ? `
+    ${circumstances && circumstances !== 'â' ? `
     <div class="modal-section">
       <div class="modal-section-title">Circumstances of Disappearance</div>
       <div class="circumstances-text">${circumstances}</div>
@@ -1025,7 +1025,7 @@ function renderModal(c) {
     <div class="modal-section">
       <div class="modal-section-title">Investigating Agency</div>
       <div class="info-grid">
-        <div class="info-item info-full"><div class="info-label">Agency</div><div class="info-value">${c.investigatingAgency || c.agencyName || '—'}</div></div>
+        <div class="info-item info-full"><div class="info-label">Agency</div><div class="info-value">${c.investigatingAgency || c.agencyName || 'â'}</div></div>
         ${c.agencyPhone ? `<div class="info-item"><div class="info-label">Phone</div><div class="info-value"><a href="tel:${c.agencyPhone}">${c.agencyPhone}</a></div></div>` : ''}
       </div>
     </div>` : ''}
@@ -1038,13 +1038,13 @@ function renderModal(c) {
       View on NamUs
     </a>
     <a class="btn-tip" href="https://www.in.gov/isp/contact-us/tips/" target="_blank">
-      📞 Submit a Tip
+      ð Submit a Tip
     </a>
   `;
 }
 
 function fmtHeight(inches) {
-  if (!inches) return '—';
+  if (!inches) return 'â';
   const ft = Math.floor(inches / 12);
   const inn = inches % 12;
   return `${ft}'${inn}" (${inches} in)`;
@@ -1059,26 +1059,26 @@ function closeModalDirect() {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
 
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 // UI STATES
-// ──────────────────────────────────────────────
+// ââââââââââââââââââââââââââââââââââââââââââââââ
 function setMainContent(state) {
   const el = document.getElementById('mainContent');
   if (state === 'loading') {
     el.innerHTML = `<div class="state-box"><div class="spinner"></div><h3>Searching NamUs Database...</h3><p>Querying Indiana missing persons cases. This may take a moment.</p></div>`;
   } else if (state === 'empty') {
-    el.innerHTML = `<div class="state-box"><div class="icon">🔍</div><h3>Search Indiana Missing Persons</h3><p>Use the filters above to search the NamUs database for missing persons cases in Indiana.</p></div>`;
+    el.innerHTML = `<div class="state-box"><div class="icon">ð</div><h3>Search Indiana Missing Persons</h3><p>Use the filters above to search the NamUs database for missing persons cases in Indiana.</p></div>`;
   } else if (state === 'noresults') {
-    el.innerHTML = `<div class="state-box"><div class="icon">📭</div><h3>No Cases Found</h3><p>No Indiana missing persons cases matched your search. Try adjusting your filters or clearing them to see all cases.</p></div>`;
+    el.innerHTML = `<div class="state-box"><div class="icon">ð­</div><h3>No Cases Found</h3><p>No Indiana missing persons cases matched your search. Try adjusting your filters or clearing them to see all cases.</p></div>`;
   }
 }
 
-// ── Allow Enter key to trigger search ──
+// ââ Allow Enter key to trigger search ââ
 document.querySelectorAll('input').forEach(inp => {
   inp.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
 });
 
-// ── Initial auto-search on load ──
+// ââ Initial auto-search on load ââ
 window.addEventListener('load', () => {
   doSearch();
 });
