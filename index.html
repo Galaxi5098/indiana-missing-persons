@@ -711,19 +711,26 @@ let usingDemo = false;
 const BASE = 'https://namus-proxy.galaxi5098.workers.dev';
 
 async function fetchNamus(opts = {}) {
-  const params = new URLSearchParams();
-  params.set('stateOfLastContact', 'IN');
-  params.set('take', '1000');
-  params.set('skip', '0');
-  if (opts.firstName) params.set('firstName', opts.firstName);
-  if (opts.lastName) params.set('lastName', opts.lastName);
-  if (opts.sex) params.set('sex', opts.sex);
+  const predicates = [
+    { field: 'stateOfLastContact', operator: 'IsIn', values: ['IN'] }
+  ];
+  if (opts.firstName) predicates.push({ field: 'firstName', operator: 'StartsWith', values: [opts.firstName] });
+  if (opts.lastName) predicates.push({ field: 'lastName', operator: 'StartsWith', values: [opts.lastName] });
+  if (opts.sex) predicates.push({ field: 'sex', operator: 'IsIn', values: [opts.sex] });
   if (opts.age) {
-    params.set('ageFrom', String(Math.max(0, parseInt(opts.age) - 5)));
-    params.set('ageTo', String(parseInt(opts.age) + 5));
+    predicates.push({ field: 'computedMissingMinAge', operator: 'LessThanOrEqual', values: [String(parseInt(opts.age) + 5)] });
+    predicates.push({ field: 'computedMissingMaxAge', operator: 'GreaterThanOrEqual', values: [String(Math.max(0, parseInt(opts.age) - 5))] });
   }
-  const url = BASE + '/api/CaseSets/NamUs/MissingPersons/Cases?' + params.toString();
-  const resp = await fetch(url, { method: 'GET', headers: { 'Accept': 'application/json' } });
+  const resp = await fetch(BASE + '/api/CaseSets/NamUs/MissingPersons/Search', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      take: 1000, skip: 0,
+      returnCaseEventHistory: false,
+      returnPrimaryImage: true,
+      predicates: predicates
+    })
+  });
   if (!resp.ok) throw new Error('HTTP ' + resp.status);
   return resp.json();
 }
