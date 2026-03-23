@@ -723,7 +723,8 @@ async function fetchNamus(body) {
 
 async function fetchCase(caseId) {
   const resp = await fetch(`${BASE}/api/CaseSets/NamUs/MissingPersons/Cases/${caseId}`, {
-    headers: { 'Accept': 'application/json' }
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
   });
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   return resp.json();
