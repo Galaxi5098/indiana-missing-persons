@@ -29,8 +29,8 @@
 
   .search-panel { background: var(--navy); border-radius: 12px; padding: 28px 32px; margin-bottom: 32px; box-shadow: var(--shadow); }
   .search-title { font-family: 'Libre Baskerville', serif; font-size: 1rem; color: var(--gold); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
-  .search-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 12px; align-items: end; }
-  @media(max-width:900px){.search-grid{grid-template-columns:1fr 1fr;}.search-grid .search-btn-wrap{grid-column:1/-1;}}
+  .search-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; gap: 12px; align-items: end; }
+  @media(max-width:900px){.search-grid{grid-template-columns:1fr 1fr;}.search-grid .search-btn-wrap{grid-column:1/-1;}} @media(min-width:901px){.search-grid{grid-template-columns:1fr 1fr 1fr 1fr 1fr auto;}}
   @media(max-width:560px){.search-grid{grid-template-columns:1fr;}.layout{padding:16px 16px 40px;}.header-inner{padding:14px 16px;}.search-panel{padding:20px 16px;}}
   .field-group { display: flex; flex-direction: column; gap: 6px; }
   .field-group label { font-size: 0.72rem; color: rgba(255,255,255,0.55); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
@@ -158,6 +158,14 @@
         <label>Age at Disappearance</label>
         <input type="number" id="age" placeholder="e.g. 25" min="0" max="120">
       </div>
+      <div class="field-group">
+        <label>City</label>
+        <input type="text" id="city" placeholder="e.g. Indianapolis">
+      </div>
+      <div class="field-group">
+        <label>County</label>
+        <input type="text" id="county" placeholder="e.g. Marion">
+      </div>
       <div class="search-btn-wrap">
         <button class="btn-search" onclick="doSearch()">Search</button>
         <button class="btn-clear" onclick="clearSearch()">Clear Filters</button>
@@ -262,7 +270,9 @@ async function doSearch() {
     firstName: document.getElementById('firstName').value.trim(),
     lastName: document.getElementById('lastName').value.trim(),
     sex: document.getElementById('sex').value,
-    age: document.getElementById('age').value
+    age: document.getElementById('age').value,
+    city: document.getElementById('city').value.trim(),
+    county: document.getElementById('county').value.trim()
   };
   setMainContent('loading');
   document.getElementById('resultsBar').style.display = 'none';
@@ -274,6 +284,8 @@ async function doSearch() {
     if (opts.firstName) allResults = allResults.filter(c => (c.firstName||'').toLowerCase().startsWith(opts.firstName.toLowerCase()));
     if (opts.lastName) allResults = allResults.filter(c => (c.lastName||'').toLowerCase().startsWith(opts.lastName.toLowerCase()));
     if (opts.sex) allResults = allResults.filter(c => (c.gender||'').toLowerCase() === opts.sex.toLowerCase());
+    if (opts.city) allResults = allResults.filter(c => (c.cityOfLastContact||'').toLowerCase().includes(opts.city.toLowerCase()));
+    if (opts.county) allResults = allResults.filter(c => (c.countyDisplayNameOfLastContact||'').toLowerCase().includes(opts.county.toLowerCase()));
     if (opts.age) {
       const a = parseInt(opts.age);
       allResults = allResults.filter(c => {
@@ -476,6 +488,8 @@ function clearSearch() {
   document.getElementById('lastName').value = '';
   document.getElementById('sex').value = '';
   document.getElementById('age').value = '';
+  document.getElementById('city').value = '';
+  document.getElementById('county').value = '';
   document.getElementById('resultsBar').style.display = 'none';
   document.getElementById('pagination').innerHTML = '';
   setMainContent('empty');
