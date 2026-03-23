@@ -29,8 +29,10 @@
 
   .search-panel { background: var(--navy); border-radius: 12px; padding: 28px 32px; margin-bottom: 32px; box-shadow: var(--shadow); }
   .search-title { font-family: 'Libre Baskerville', serif; font-size: 1rem; color: var(--gold); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
-  .search-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; gap: 12px; align-items: end; }
-  @media(max-width:900px){.search-grid{grid-template-columns:1fr 1fr;}.search-grid .search-btn-wrap{grid-column:1/-1;}} @media(min-width:901px){.search-grid{grid-template-columns:1fr 1fr 1fr 1fr 1fr auto;}}
+  .search-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: flex-end; }
+  .search-grid .field-group { flex: 1 1 140px; min-width: 120px; max-width: 175px; }
+  .search-grid .search-btn-wrap { flex: 0 0 100%; display: flex; flex-direction: row; justify-content: center; gap: 12px; margin-top: 6px; }
+  @media(max-width:700px){ .search-grid .field-group { flex: 1 1 45%; max-width: 100%; } }
   @media(max-width:560px){.search-grid{grid-template-columns:1fr;}.layout{padding:16px 16px 40px;}.header-inner{padding:14px 16px;}.search-panel{padding:20px 16px;}}
   .field-group { display: flex; flex-direction: column; gap: 6px; }
   .field-group label { font-size: 0.72rem; color: rgba(255,255,255,0.55); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
@@ -42,7 +44,7 @@
   .btn-search:hover { background: var(--gold-light); }
   .btn-clear { background: transparent; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 7px; padding: 11px 16px; font-size: 0.82rem; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; transition: all 0.2s; }
   .btn-clear:hover { color: white; border-color: rgba(255,255,255,0.5); }
-  .search-btn-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .search-btn-wrap { display: flex; flex-direction: row; justify-content: center; gap: 12px; }
 
   .results-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
   .results-count { font-size: 0.85rem; color: var(--text-muted); }
