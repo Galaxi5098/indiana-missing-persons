@@ -863,12 +863,13 @@ function renderPage() {
     const card = document.createElement('div');
     card.className = 'person-card';
     card.style.animationDelay = `${i * 0.04}s`;
-    card.onclick = () => openCase(c.id || c.caseId || c.namus2Number);
+    card.onclick = () => openCase(c.namus2Number || c.id || c.caseId);
 
+    const caseId = c.namus2Number || c.id || c.caseId;
     const age = c.computedMissingMinAge != null
       ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : `${c.computedMissingMinAge}â${c.computedMissingMaxAge}`)
       : '?';
-    const dateStr = c.dateMissing ? new Date(c.dateMissing).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'}) : 'Unknown';
+    const dateStr = (c.dateMissing || c.dateOfLastContact) ? new Date(c.dateMissing || c.dateOfLastContact).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'}) : 'Unknown';
     const city = c.cityOfLastContact || c.city || '';
     const photoUrl = getPhotoUrl(c);
 
