@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indiana Missing Persons — NamUs Database</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #132240;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #f5f0e8;
+    --cream-dark: #ede5d5;
+    --red: #b8292f;
+    --text: #1a1a2e;
+    --text-muted: #5a6175;
+    --border: #d4c9b5;
+    --white: #ffffff;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 24px rgba(10,22,40,0.10);
+    --shadow-hover: 0 8px 40px rgba(10,22,40,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  }
+  .header-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header-seal {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+  }
+  .header-text h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+  .header-text p {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .header-badge {
+    margin-left: auto;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ── HERO STRIP ── */
+  .hero-strip {
+    background: var(--red);
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .hero-strip a { color: var(--gold-light); text-decoration: underline; }
+
+  /* ── MAIN LAYOUT ── */
+  .layout {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 32px 32px 60px;
+  }
+
+  /* ── SEARCH PANEL ── */
+  .search-panel {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow);
+  }
+  .search-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .search-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: end;
+  }
+  @media(max-width: 900px) {
+    .search-grid { grid-template-columns: 1fr 1fr; }
+    .search-grid .search-btn-wrap { grid-column: 1/-1; }
+  }
+  @media(max-width: 560px) {
+    .search-grid { grid-template-columns: 1fr; }
+    .layout { padding: 16px 16px 40px; }
+    .header-inner { padding: 14px 16px; }
+    .search-panel { padding: 20px 16px; }
+  }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-group label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .field-group input, .field-group select {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 7px;
+    color: white;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: border 0.2s, background 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+  }
+  .field-group select option { background: var(--navy-mid); color: white; }
+  .field-group input::placeholder { color: rgba(255,255,255,0.35); }
+  .field-group input:focus, .field-group select:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.12);
+  }
+  .btn-search {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 7px;
+    padding: 11px 28px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.1s;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .btn-search:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-search:active { transform: translateY(0); }
+  .btn-clear {
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 7px;
+    padding: 11px 16px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    margin-top: 8px;
+    width: 100%;
+  }
+  .btn-clear:hover { color: white; border-color: rgba(255,255,255,0.5); }
+  .search-btn-wrap { display: flex; flex-direction: column; }
+
+  /* ── RESULTS STATS ── */
+  .results-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .results-count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .results-count strong { color: var(--text); }
+  .sort-row { display: flex; align-items: center; gap: 10px; }
+  .sort-row label { font-size: 0.8rem; color: var(--text-muted); }
+  .sort-row select {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 0.82rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: white;
+    cursor: pointer;
+  }
+
+  /* ── CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .person-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+    animation: fadeUp 0.4s ease both;
+  }
+  .person-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-photo {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    display: block;
+    background: var(--cream-dark);
+  }
+  .card-no-photo {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #e8e2d8 0%, #d4cdbf 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #9a9080;
+    gap: 8px;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .card-no-photo svg { opacity: 0.4; }
+
+  .card-body {
+    padding: 14px 16px 16px;
+    border-top: 3px solid var(--gold);
+  }
+  .card-name {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.97rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .card-case {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .card-meta-row {
+    display: flex;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    align-items: baseline;
+  }
+  .card-meta-row strong { color: var(--text); font-weight: 600; min-width: 38px; }
+  .card-tag {
+    display: inline-block;
+    margin-top: 10px;
+    background: #fff3cd;
+    color: #7a5c00;
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  /* ── LOADING / EMPTY ── */
+  .state-box {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+  }
+  .state-box .icon { font-size: 3rem; margin-bottom: 14px; opacity: 0.5; }
+  .state-box h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .state-box p { font-size: 0.88rem; line-height: 1.6; max-width: 400px; margin: 0 auto; }
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── PAGINATION ── */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+  .page-btn {
+    min-width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    border-radius: 7px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    padding: 0 10px;
+  }
+  .page-btn:hover { border-color: var(--gold); color: var(--navy); }
+  .page-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); font-weight: 700; }
+  .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(10,22,40,0.75);
+    z-index: 500;
+    backdrop-filter: blur(3px);
+    padding: 20px;
+    overflow-y: auto;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .modal-overlay.open {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal {
+    background: white;
+    border-radius: 14px;
+    max-width: 860px;
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.4);
+    animation: slideUp 0.25s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  .modal-header {
+    background: var(--navy);
+    color: white;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .modal-header-text h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.3rem;
+  }
+  .modal-header-text p { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .modal-close {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+  .modal-body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 0;
+  }
+  @media(max-width: 640px) { .modal-body { grid-template-columns: 1fr; } }
+
+  .modal-photo-col {
+    background: var(--cream-dark);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px;
+    border-right: 1px solid var(--border);
+  }
+  .modal-photo {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .modal-no-photo {
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 3/4;
+    border-radius: 8px;
+    background: #e5dfd5;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: #9a9080;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    gap: 10px;
+  }
+
+  .modal-info-col { padding: 24px 28px; overflow-y: auto; }
+
+  .modal-section { margin-bottom: 22px; }
+  .modal-section-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+  }
+  @media(max-width: 480px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-item { display: flex; flex-direction: column; gap: 2px; }
+  .info-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  .info-value {
+    font-size: 0.88rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .info-full { grid-column: 1/-1; }
+  .circumstances-text {
+    font-size: 0.87rem;
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--cream);
+    border-radius: 6px;
+    padding: 12px 14px;
+    border-left: 3px solid var(--gold);
+  }
+  .modal-actions {
+    padding: 16px 28px;
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn-namus {
+    background: var(--navy);
+    color: var(--gold);
+    border: none;
+    border-radius: 7px;
+    padding: 10px 20px;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-namus:hover { background: var(--navy-mid); }
+  .btn-tip {
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 20px;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-tip:hover { background: #9e2025; }
+
+  /* ── ERROR NOTICE ── */
+  .cors-notice {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 0.84rem;
+    color: #664d00;
+    display: none;
+  }
+  .cors-notice strong { display: block; margin-bottom: 4px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    padding: 24px;
+    font-size: 0.75rem;
+    line-height: 1.7;
+    margin-top: 40px;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-seal" title="Indiana">🏛️</div>
+    <div class="header-text">
+      <h1>Indiana Missing Persons</h1>
+      <p>Powered by NamUs · National Missing &amp; Unidentified Persons System</p>
+    </div>
+    <span class="header-badge">Public Database</span>
+  </div>
+</header>
+
+<div class="hero-strip">
+  <strong>If you have information about a missing person, call the ISP tip line: </strong>
+  <a href="tel:18002220105">1-800-222-0105</a> &nbsp;|&nbsp; 
+  Emergency: <a href="tel:911">911</a>
+</div>
+
+<div class="layout">
+
+  <div class="search-panel">
+    <div class="search-title">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Search Indiana Missing Persons
+    </div>
+    <div class="search-grid">
+      <div class="field-group">
+        <label>First Name</label>
+        <input type="text" id="firstName" placeholder="e.g. Jane">
+      </div>
+      <div class="field-group">
+        <label>Last Name</label>
+        <input type="text" id="lastName" placeholder="e.g. Doe">
+      </div>
+      <div class="field-group">
+        <label>Gender</label>
+        <select id="sex">
+          <option value="">Any</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Age at Disappearance</label>
+        <input type="number" id="age" placeholder="e.g. 25" min="0" max="120">
+      </div>
+      <div class="search-btn-wrap">
+        <button class="btn-search" onclick="doSearch()">Search</button>
+        <button class="btn-clear" onclick="clearSearch()">Clear Filters</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cors-notice" id="corsNotice">
+    <strong>⚠️ Note: Running in Demo Mode</strong>
+    This page is displaying sample data because direct browser access to the NamUs API is restricted by CORS policy. To deploy this fully, the page needs to be served from a backend proxy or server. The UI and all features are functional — just connect to a server-side NamUs proxy.
+  </div>
+
+  <div class="results-bar" id="resultsBar" style="display:none">
+    <div class="results-count" id="resultsCount"></div>
+    <div class="sort-row">
+      <label>Sort by:</label>
+      <select id="sortBy" onchange="applySort()">
+        <option value="date-desc">Missing Date (Newest)</option>
+        <option value="date-asc">Missing Date (Oldest)</option>
+        <option value="name-asc">Name (A–Z)</option>
+        <option value="name-desc">Name (Z–A)</option>
+        <option value="age-asc">Age (Youngest)</option>
+        <option value="age-desc">Age (Oldest)</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="mainContent">
+    <div class="state-box">
+      <div class="icon">🔍</div>
+      <h3>Search Indiana Missing Persons</h3>
+      <p>Use the filters above to search the NamUs database for missing persons cases in Indiana. Click any case card to view full details.</p>
+    </div>
+  </div>
+
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <h2 id="modalName">Loading...</h2>
+        <p id="modalCaseNum"></p>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-photo-col" id="modalPhotoCol">
+        <div class="modal-no-photo">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          No Photo
+        </div>
+      </div>
+      <div class="modal-info-col" id="modalInfoCol">
+        <div class="state-box" style="padding:40px 0">
+          <div class="spinner"></div>
+          <p>Loading case details...</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
+
+<footer>
+  Data sourced from the <a href="https://www.namus.gov" target="_blank">National Missing &amp; Unidentified Persons System (NamUs)</a>, administered by the U.S. Department of Justice's National Institute of Justice.<br>
+  For law enforcement use, contact <a href="https://www.in.gov/isp/" target="_blank">Indiana State Police</a> · All case data is publicly available per NamUs guidelines.<br>
+  <span style="opacity:0.5; font-size:0.7rem">This interface is not affiliated with or endorsed by NamUs or the Indiana State Police.</span>
+</footer>
+
+<script>
+// ──────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────
+let allResults = [];
+let filteredResults = [];
+let currentPage = 1;
+const PAGE_SIZE = 24;
+let usingDemo = false;
+
+// ──────────────────────────────────────────────
+// NAMUS API HELPERS
+// ──────────────────────────────────────────────
+const BASE = 'https://namus-proxy.galaxi5098.workers.dev';
+const SEARCH_URL = `${BASE}/api/CaseSets/NamUs/MissingPersons/Cases/Search`;
+
+async function fetchNamus(body) {
+  const resp = await fetch(SEARCH_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  return resp.json();
+}
+
+async function fetchCase(caseId) {
+  const resp = await fetch(`${BASE}/api/CaseSets/NamUs/MissingPersons/Cases/${caseId}`, {
+    headers: { 'Accept': 'application/json' }
+  });
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  return resp.json();
+}
+
+function buildSearchPayload(opts = {}) {
+  const predicates = [
+    { field: 'stateOfLastContact', operator: 'IsIn', values: ['IN'] }
+  ];
+  if (opts.firstName) predicates.push({ field: 'firstName', operator: 'StartsWith', values: [opts.firstName] });
+  if (opts.lastName) predicates.push({ field: 'lastName', operator: 'StartsWith', values: [opts.lastName] });
+  if (opts.sex) predicates.push({ field: 'sex', operator: 'IsIn', values: [opts.sex] });
+  if (opts.age) predicates.push({
+    field: 'computedMissingMinAge', operator: 'LessThanOrEqual', values: [String(parseInt(opts.age) + 5)]
+  }, { field: 'computedMissingMaxAge', operator: 'GreaterThanOrEqual', values: [String(Math.max(0, parseInt(opts.age) - 5))] });
+  return {
+    take: 1000,
+    skip: 0,
+    returnCaseEventHistory: false,
+    returnPrimaryImage: true,
+    predicates
+  };
+}
+
+// ──────────────────────────────────────────────
+// DEMO / SAMPLE DATA (fallback if CORS blocked)
+// ──────────────────────────────────────────────
+const DEMO_CASES = [
+  { id: 'MP93761', firstName: 'Ashley', lastName: 'Nolen', sex: 'Female', computedMissingMinAge: 28, computedMissingMaxAge: 28, dateMissing: '2019-03-15', cityOfLastContact: 'Indianapolis', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Ashley was last seen leaving her apartment in Indianapolis. She had been in contact with family the day before her disappearance. Her vehicle was found abandoned near I-70.' },
+  { id: 'MP87432', firstName: 'James', lastName: 'Weatherton', sex: 'Male', computedMissingMinAge: 45, computedMissingMaxAge: 45, dateMissing: '2017-07-22', cityOfLastContact: 'Fort Wayne', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'James was last seen at his residence in Fort Wayne. He had told neighbors he was going fishing but never returned.' },
+  { id: 'MP102145', firstName: 'Maria', lastName: 'Castillo', sex: 'Female', computedMissingMinAge: 17, computedMissingMaxAge: 17, dateMissing: '2021-09-04', cityOfLastContact: 'Evansville', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Maria was last seen walking home from school in Evansville. She did not arrive home and was reported missing that evening.' },
+  { id: 'MP78923', firstName: 'Robert', lastName: 'Dunning', sex: 'Male', computedMissingMinAge: 62, computedMissingMaxAge: 62, dateMissing: '2015-12-01', cityOfLastContact: 'South Bend', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Robert walked away from a care facility in South Bend during a snowstorm. He was reported to have mild cognitive impairment.' },
+  { id: 'MP115678', firstName: 'Tanya', lastName: 'Morgan', sex: 'Female', computedMissingMinAge: 34, computedMissingMaxAge: 34, dateMissing: '2022-05-18', cityOfLastContact: 'Bloomington', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Tanya was last seen at a local restaurant in Bloomington. Her phone was found at a nearby park the following morning.' },
+  { id: 'MP69811', firstName: 'Kevin', lastName: 'Barlow', sex: 'Male', computedMissingMinAge: 21, computedMissingMaxAge: 21, dateMissing: '2013-08-30', cityOfLastContact: 'Muncie', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Kevin went to a party in Muncie and never returned home. Witnesses last saw him walking alone on a rural road early in the morning.' },
+  { id: 'MP134902', firstName: 'Linda', lastName: 'Prescott', sex: 'Female', computedMissingMinAge: 52, computedMissingMaxAge: 52, dateMissing: '2023-01-09', cityOfLastContact: 'Lafayette', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Linda was last seen at a gas station in Lafayette. Her car was found running at a rest stop on I-65.' },
+  { id: 'MP55403', firstName: 'Daniel', lastName: 'Whitt', sex: 'Male', computedMissingMinAge: 38, computedMissingMaxAge: 38, dateMissing: '2010-04-14', cityOfLastContact: 'Terre Haute', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Daniel was last known to be in Terre Haute. He had been experiencing personal difficulties and had not contacted his family for several weeks prior.' },
+  { id: 'MP142388', firstName: 'Sophia', lastName: 'Hensley', sex: 'Female', computedMissingMinAge: 14, computedMissingMaxAge: 14, dateMissing: '2023-10-11', cityOfLastContact: 'Gary', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Sophia was last seen leaving her school in Gary. Surveillance footage shows her getting into an unknown vehicle.' },
+  { id: 'MP98017', firstName: 'Marcus', lastName: 'Tilley', sex: 'Male', computedMissingMinAge: 29, computedMissingMaxAge: 29, dateMissing: '2020-06-27', cityOfLastContact: 'Anderson', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Marcus was last seen at his workplace in Anderson. A coworker reported he seemed distressed. His belongings were found at a nearby bridge.' },
+  { id: 'MP73456', firstName: 'Patricia', lastName: 'Odom', sex: 'Female', computedMissingMinAge: 67, computedMissingMaxAge: 67, dateMissing: '2014-11-03', cityOfLastContact: 'Kokomo', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Patricia walked away from her home in Kokomo. She has a history of dementia and is considered endangered.' },
+  { id: 'MP126745', firstName: 'Tyler', lastName: 'Renfrow', sex: 'Male', computedMissingMinAge: 23, computedMissingMaxAge: 23, dateMissing: '2022-08-14', cityOfLastContact: 'Columbus', countryOfLastContact: 'IN', hasPrimaryImage: false, circumstancesOfDisappearance: 'Tyler was last seen at a bar in Columbus. Friends say he left alone after midnight and was not seen again.' }
+];
+
+// ──────────────────────────────────────────────
+// SEARCH
+// ──────────────────────────────────────────────
+async function doSearch() {
+  const opts = {
+    firstName: document.getElementById('firstName').value.trim(),
+    lastName: document.getElementById('lastName').value.trim(),
+    sex: document.getElementById('sex').value,
+    age: document.getElementById('age').value
+  };
+
+  setMainContent('loading');
+  document.getElementById('resultsBar').style.display = 'none';
+  document.getElementById('pagination').innerHTML = '';
+
+  try {
+    const payload = buildSearchPayload(opts);
+    const data = await fetchNamus(payload);
+    usingDemo = false;
+    document.getElementById('corsNotice').style.display = 'none';
+    allResults = (data.results || data.items || data || []);
+    processResults(opts);
+  } catch (err) {
+    // CORS or network error — use demo data
+    usingDemo = true;
+    document.getElementById('corsNotice').style.display = 'block';
+    // Filter demo data
+    let filtered = [...DEMO_CASES];
+    if (opts.firstName) filtered = filtered.filter(c => c.firstName.toLowerCase().startsWith(opts.firstName.toLowerCase()));
+    if (opts.lastName) filtered = filtered.filter(c => c.lastName.toLowerCase().startsWith(opts.lastName.toLowerCase()));
+    if (opts.sex) filtered = filtered.filter(c => c.sex === opts.sex);
+    allResults = filtered;
+    processResults(opts);
+  }
+}
+
+function processResults(opts) {
+  filteredResults = [...allResults];
+  currentPage = 1;
+  applySort();
+}
+
+function applySort() {
+  const sort = document.getElementById('sortBy').value;
+  filteredResults.sort((a, b) => {
+    const nameA = ((a.firstName||'') + ' ' + (a.lastName||'')).toLowerCase();
+    const nameB = ((b.firstName||'') + ' ' + (b.lastName||'')).toLowerCase();
+    const dateA = new Date(a.dateMissing||0).getTime();
+    const dateB = new Date(b.dateMissing||0).getTime();
+    const ageA = a.computedMissingMinAge||0;
+    const ageB = b.computedMissingMinAge||0;
+    if (sort === 'name-asc') return nameA.localeCompare(nameB);
+    if (sort === 'name-desc') return nameB.localeCompare(nameA);
+    if (sort === 'date-asc') return dateA - dateB;
+    if (sort === 'date-desc') return dateB - dateA;
+    if (sort === 'age-asc') return ageA - ageB;
+    if (sort === 'age-desc') return ageB - ageA;
+    return 0;
+  });
+  renderPage();
+}
+
+function clearSearch() {
+  document.getElementById('firstName').value = '';
+  document.getElementById('lastName').value = '';
+  document.getElementById('sex').value = '';
+  document.getElementById('age').value = '';
+  document.getElementById('resultsBar').style.display = 'none';
+  document.getElementById('pagination').innerHTML = '';
+  document.getElementById('corsNotice').style.display = 'none';
+  setMainContent('empty');
+}
+
+// ──────────────────────────────────────────────
+// RENDER
+// ──────────────────────────────────────────────
+function renderPage() {
+  const total = filteredResults.length;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+  const page = filteredResults.slice(start, end);
+
+  const rb = document.getElementById('resultsBar');
+  rb.style.display = 'flex';
+  document.getElementById('resultsCount').innerHTML =
+    `Showing <strong>${start + 1}–${Math.min(end, total)}</strong> of <strong>${total}</strong> Indiana cases${usingDemo ? ' <em style="color:#b8292f">(demo data)</em>' : ''}`;
+
+  if (total === 0) {
+    setMainContent('noresults');
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'cards-grid';
+
+  page.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'person-card';
+    card.style.animationDelay = `${i * 0.04}s`;
+    card.onclick = () => openCase(c.id || c.caseId || c.namus2Number);
+
+    const age = c.computedMissingMinAge != null
+      ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : `${c.computedMissingMinAge}–${c.computedMissingMaxAge}`)
+      : '?';
+    const dateStr = c.dateMissing ? new Date(c.dateMissing).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'}) : 'Unknown';
+    const city = c.cityOfLastContact || c.city || '';
+    const photoUrl = getPhotoUrl(c);
+
+    card.innerHTML = `
+      ${photoUrl
+        ? `<img class="card-photo" src="${photoUrl}" alt="Photo of ${c.firstName} ${c.lastName}" loading="lazy" onerror="this.outerHTML=noPhotoHTML()">`
+        : `<div class="card-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo</div>`
+      }
+      <div class="card-body">
+        <div class="card-name">${c.firstName || ''} ${c.lastName || ''}</div>
+        <div class="card-case">Case #${c.id || c.caseId || c.namus2Number || '—'}</div>
+        <div class="card-meta">
+          <div class="card-meta-row"><strong>Age</strong> ${age} at disappearance</div>
+          <div class="card-meta-row"><strong>Date</strong> ${dateStr}</div>
+          ${city ? `<div class="card-meta-row"><strong>City</strong> ${city}</div>` : ''}
+          <div class="card-meta-row"><strong>Sex</strong> ${c.sex || c.gender || '—'}</div>
+        </div>
+        ${(age !== '?' && parseInt(age) < 18) ? '<span class="card-tag">⚠ Juvenile</span>' : ''}
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  document.getElementById('mainContent').innerHTML = '';
+  document.getElementById('mainContent').appendChild(grid);
+
+  renderPagination(totalPages);
+}
+
+function noPhotoHTML() {
+  return `<div class="card-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo</div>`;
+}
+
+function getPhotoUrl(c) {
+  if (c.images && c.images.length) {
+    const img = c.images[0];
+    if (img.files && img.files.thumbnail) return 'https://www.namus.gov' + img.files.thumbnail.href;
+    if (img.files && img.files.original) return 'https://www.namus.gov' + img.files.original.href;
+  }
+  if (c.hasPrimaryImage && (c.id || c.caseId || c.namus2Number)) {
+    return `https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/${c.id||c.caseId||c.namus2Number}/Images/Primary/Thumbnail`;
+  }
+  return null;
+}
+
+function renderPagination(totalPages) {
+  const pag = document.getElementById('pagination');
+  pag.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  const addBtn = (label, page, disabled, active) => {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (active ? ' active' : '');
+    btn.textContent = label;
+    btn.disabled = disabled;
+    btn.onclick = () => { currentPage = page; renderPage(); window.scrollTo({top:0,behavior:'smooth'}); };
+    pag.appendChild(btn);
+  };
+
+  addBtn('‹ Prev', currentPage - 1, currentPage === 1);
+  const range = pageRange(currentPage, totalPages);
+  let prev = null;
+  for (const p of range) {
+    if (prev !== null && p - prev > 1) {
+      const dots = document.createElement('span');
+      dots.textContent = '…';
+      dots.style.cssText = 'padding:0 4px;color:#aaa;';
+      pag.appendChild(dots);
+    }
+    addBtn(p, p, false, p === currentPage);
+    prev = p;
+  }
+  addBtn('Next ›', currentPage + 1, currentPage === totalPages);
+}
+
+function pageRange(cur, total) {
+  const pages = new Set([1, total, cur, cur-1, cur+1].filter(p => p >= 1 && p <= total));
+  return [...pages].sort((a,b) => a-b);
+}
+
+// ──────────────────────────────────────────────
+// MODAL
+// ──────────────────────────────────────────────
+async function openCase(caseId) {
+  document.getElementById('modalName').textContent = 'Loading...';
+  document.getElementById('modalCaseNum').textContent = '';
+  document.getElementById('modalPhotoCol').innerHTML = `<div class="modal-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Loading...</div>`;
+  document.getElementById('modalInfoCol').innerHTML = `<div class="state-box" style="padding:40px 0"><div class="spinner"></div><p>Loading case details...</p></div>`;
+  document.getElementById('modalActions').innerHTML = '';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  try {
+    let c;
+    if (usingDemo) {
+      c = DEMO_CASES.find(x => x.id === caseId);
+    } else {
+      c = await fetchCase(caseId);
+    }
+    renderModal(c);
+  } catch(err) {
+    // try demo fallback
+    const c = DEMO_CASES.find(x => x.id === caseId);
+    if (c) renderModal(c);
+    else {
+      document.getElementById('modalInfoCol').innerHTML = `<div class="state-box" style="padding:40px 0"><div class="icon">⚠️</div><h3>Could not load case</h3><p>There was an error retrieving this case from NamUs. Please visit NamUs directly.</p></div>`;
+    }
+  }
+}
+
+function renderModal(c) {
+  if (!c) return;
+  const name = `${c.firstName||''} ${c.middleName||''} ${c.lastName||''}`.replace(/\s+/g,' ').trim();
+  document.getElementById('modalName').textContent = name;
+  document.getElementById('modalCaseNum').textContent = `NamUs Case #${c.id || c.caseId || c.namus2Number || '—'} · Indiana`;
+
+  // Photo
+  const photoUrl = getPhotoUrl(c);
+  document.getElementById('modalPhotoCol').innerHTML = photoUrl
+    ? `<img class="modal-photo" src="${photoUrl}" alt="Photo of ${name}" onerror="this.outerHTML='<div class=modal-no-photo><svg width=48 height=48 viewBox=\\'0 0 24 24\\' fill=none stroke=currentColor stroke-width=1.5><path d=\\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\\'/><circle cx=12 cy=7 r=4/></svg>No Photo</div>'">`
+    : `<div class="modal-no-photo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>No Photo on File</div>`;
+
+  const age = c.computedMissingMinAge != null
+    ? (c.computedMissingMinAge === c.computedMissingMaxAge ? c.computedMissingMinAge : `${c.computedMissingMinAge}–${c.computedMissingMaxAge}`)
+    : (c.age || '—');
+  const dateStr = c.dateMissing ? new Date(c.dateMissing).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : '—';
+  const circumstances = c.circumstancesOfDisappearance || c.circumstances || '—';
+
+  document.getElementById('modalInfoCol').innerHTML = `
+    <div class="modal-section">
+      <div class="modal-section-title">Case Information</div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Date Missing</div><div class="info-value">${dateStr}</div></div>
+        <div class="info-item"><div class="info-label">Age at Disappearance</div><div class="info-value">${age}</div></div>
+        <div class="info-item"><div class="info-label">Sex</div><div class="info-value">${c.sex || c.gender || '—'}</div></div>
+        <div class="info-item"><div class="info-label">Race / Ethnicity</div><div class="info-value">${c.race || '—'}${c.ethnicity && c.ethnicity !== c.race ? ' / '+c.ethnicity : ''}</div></div>
+        <div class="info-item"><div class="info-label">City Last Seen</div><div class="info-value">${c.cityOfLastContact || c.city || '—'}</div></div>
+        <div class="info-item"><div class="info-label">County</div><div class="info-value">${c.countyOfLastContact || c.county || '—'}</div></div>
+      </div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Physical Description</div>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">Height</div><div class="info-value">${c.heightFrom || c.height ? fmtHeight(c.heightFrom || c.height) : '—'}</div></div>
+        <div class="info-item"><div class="info-label">Weight</div><div class="info-value">${c.weightFrom || c.weight ? (c.weightFrom || c.weight) + ' lbs' : '—'}</div></div>
+        <div class="info-item"><div class="info-label">Hair Color</div><div class="info-value">${c.hairColor || c.hair || '—'}</div></div>
+        <div class="info-item"><div class="info-label">Eye Color</div><div class="info-value">${c.eyeColor || c.eyes || '—'}</div></div>
+      </div>
+    </div>
+    ${circumstances && circumstances !== '—' ? `
+    <div class="modal-section">
+      <div class="modal-section-title">Circumstances of Disappearance</div>
+      <div class="circumstances-text">${circumstances}</div>
+    </div>` : ''}
+    ${c.investigatingAgency || c.agencyName ? `
+    <div class="modal-section">
+      <div class="modal-section-title">Investigating Agency</div>
+      <div class="info-grid">
+        <div class="info-item info-full"><div class="info-label">Agency</div><div class="info-value">${c.investigatingAgency || c.agencyName || '—'}</div></div>
+        ${c.agencyPhone ? `<div class="info-item"><div class="info-label">Phone</div><div class="info-value"><a href="tel:${c.agencyPhone}">${c.agencyPhone}</a></div></div>` : ''}
+      </div>
+    </div>` : ''}
+  `;
+
+  const namusId = c.id || c.caseId || c.namus2Number;
+  document.getElementById('modalActions').innerHTML = `
+    <a class="btn-namus" href="https://www.namus.gov/MissingPersons/Case#/${namusId}" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      View on NamUs
+    </a>
+    <a class="btn-tip" href="https://www.in.gov/isp/contact-us/tips/" target="_blank">
+      📞 Submit a Tip
+    </a>
+  `;
+}
+
+function fmtHeight(inches) {
+  if (!inches) return '—';
+  const ft = Math.floor(inches / 12);
+  const inn = inches % 12;
+  return `${ft}'${inn}" (${inches} in)`;
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+// ──────────────────────────────────────────────
+// UI STATES
+// ──────────────────────────────────────────────
+function setMainContent(state) {
+  const el = document.getElementById('mainContent');
+  if (state === 'loading') {
+    el.innerHTML = `<div class="state-box"><div class="spinner"></div><h3>Searching NamUs Database...</h3><p>Querying Indiana missing persons cases. This may take a moment.</p></div>`;
+  } else if (state === 'empty') {
+    el.innerHTML = `<div class="state-box"><div class="icon">🔍</div><h3>Search Indiana Missing Persons</h3><p>Use the filters above to search the NamUs database for missing persons cases in Indiana.</p></div>`;
+  } else if (state === 'noresults') {
+    el.innerHTML = `<div class="state-box"><div class="icon">📭</div><h3>No Cases Found</h3><p>No Indiana missing persons cases matched your search. Try adjusting your filters or clearing them to see all cases.</p></div>`;
+  }
+}
+
+// ── Allow Enter key to trigger search ──
+document.querySelectorAll('input').forEach(inp => {
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+});
+
+// ── Initial auto-search on load ──
+window.addEventListener('load', () => {
+  doSearch();
+});
+</script>
+</body>
+</html>
