@@ -709,44 +709,32 @@ let usingDemo = false;
 // NAMUS API HELPERS
 // ──────────────────────────────────────────────
 const BASE = 'https://namus-proxy.galaxi5098.workers.dev';
-const SEARCH_URL = `${BASE}/api/CaseSets/NamUs/MissingPersons/Cases/Search`;
 
-async function fetchNamus(body) {
-  const resp = await fetch(SEARCH_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+async function fetchNamus(opts = {}) {
+  const params = new URLSearchParams();
+  params.set('stateOfLastContact', 'IN');
+  params.set('take', '1000');
+  params.set('skip', '0');
+  if (opts.firstName) params.set('firstName', opts.firstName);
+  if (opts.lastName) params.set('lastName', opts.lastName);
+  if (opts.sex) params.set('sex', opts.sex);
+  if (opts.age) {
+    params.set('ageFrom', String(Math.max(0, parseInt(opts.age) - 5)));
+    params.set('ageTo', String(parseInt(opts.age) + 5));
+  }
+  const url = BASE + '/api/CaseSets/NamUs/MissingPersons/Cases?' + params.toString();
+  const resp = await fetch(url, { method: 'GET', headers: { 'Accept': 'application/json' } });
+  if (!resp.ok) throw new Error('HTTP ' + resp.status);
   return resp.json();
 }
 
 async function fetchCase(caseId) {
-  const resp = await fetch(`${BASE}/api/CaseSets/NamUs/MissingPersons/Cases/${caseId}`, {
+  const resp = await fetch(BASE + '/api/CaseSets/NamUs/MissingPersons/Cases/' + caseId, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+    headers: { 'Accept': 'application/json' }
   });
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  if (!resp.ok) throw new Error('HTTP ' + resp.status);
   return resp.json();
-}
-
-function buildSearchPayload(opts = {}) {
-  const predicates = [
-    { field: 'stateOfLastContact', operator: 'IsIn', values: ['IN'] }
-  ];
-  if (opts.firstName) predicates.push({ field: 'firstName', operator: 'StartsWith', values: [opts.firstName] });
-  if (opts.lastName) predicates.push({ field: 'lastName', operator: 'StartsWith', values: [opts.lastName] });
-  if (opts.sex) predicates.push({ field: 'sex', operator: 'IsIn', values: [opts.sex] });
-  if (opts.age) predicates.push({
-    field: 'computedMissingMinAge', operator: 'LessThanOrEqual', values: [String(parseInt(opts.age) + 5)]
-  }, { field: 'computedMissingMaxAge', operator: 'GreaterThanOrEqual', values: [String(Math.max(0, parseInt(opts.age) - 5))] });
-  return {
-    take: 1000,
-    skip: 0,
-    returnCaseEventHistory: false,
-    returnPrimaryImage: true,
-    predicates
-  };
 }
 
 // ──────────────────────────────────────────────
@@ -783,8 +771,7 @@ async function doSearch() {
   document.getElementById('pagination').innerHTML = '';
 
   try {
-    const payload = buildSearchPayload(opts);
-    const data = await fetchNamus(payload);
+    const data = await fetchNamus(opts);
     usingDemo = false;
     document.getElementById('corsNotice').style.display = 'none';
     allResults = (data.results || data.items || data || []);
