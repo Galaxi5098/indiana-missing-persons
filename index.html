@@ -726,9 +726,10 @@ async function fetchNamus(opts = {}) {
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({
       take: 1000, skip: 0,
-      returnCaseEventHistory: false,
-      returnPrimaryImage: true,
-      predicates: predicates
+      predicates: predicates,
+      projections: ['idFormatted','dateOfLastContact','lastName','firstName','computedMissingMinAge','computedMissingMaxAge','cityOfLastContact','countyDisplayNameOfLastContact','stateDisplayNameOfLastContact','gender','raceEthnicity','modifiedDateTime','namus2Number'],
+      orderSpecifications: [{field:'dateOfLastContact', direction:'Descending'}],
+      documentFragments: ['birthDate']
     })
   });
   if (!resp.ok) throw new Error('HTTP ' + resp.status);
